@@ -16,8 +16,6 @@ public class Player extends Entity {
 
 	private final int screenX; // Center of screen X value
 	private final int screenY; // Center of screen Y value
-	private boolean moving;
-	private int pixelCount;
 
 	private int keyBag = 0;
 
@@ -105,11 +103,11 @@ public class Player extends Entity {
 					break;
 				}
 			}
-			pixelCount += getSpeed();
-			if (pixelCount == 48) {
-				moving = false;
+			setPixelCount(getPixelCount() + getSpeed());
+			if (getPixelCount() == 48) {
+				setMoving(false);
 				altSprite();
-				pixelCount = 0;
+				setPixelCount(0);
 			}
 		}
 	}
@@ -140,7 +138,7 @@ public class Player extends Entity {
 
 		switch (getDirection()) {
 		case "up":
-			if (!isMoving()) {
+			if (!isMoving() || getPixelCount() >= 30) {
 				image = getUp0();
 				break;
 			}
@@ -152,7 +150,7 @@ public class Player extends Entity {
 			}
 			break;
 		case "down":
-			if (!isMoving()) {
+			if (!isMoving() || getPixelCount() >= 30) {
 				image = getDown0();
 				break;
 			}
@@ -164,7 +162,7 @@ public class Player extends Entity {
 			}
 			break;
 		case "left":
-			if (!isMoving()) {
+			if (!isMoving() || getPixelCount() >= 30) {
 				image = getLeft0();
 				break;
 			}
@@ -176,7 +174,7 @@ public class Player extends Entity {
 			}
 			break;
 		case "right":
-			if (!isMoving()) {
+			if (!isMoving() || getPixelCount() >= 30) {
 				image = getRight0();
 				break;
 			}
@@ -190,22 +188,6 @@ public class Player extends Entity {
 		}
 
 		frame.drawImage(image, screenX, screenY, gp.getTileSize(), gp.getTileSize(), null);
-	}
-
-	public boolean isMoving() {
-		return moving;
-	}
-
-	public void setMoving(boolean moving) {
-		this.moving = moving;
-	}
-
-	public int getPixelCount() {
-		return pixelCount;
-	}
-
-	public void setPixelCount(int pixelCount) {
-		this.pixelCount = pixelCount;
 	}
 
 	public int getKeyBag() {

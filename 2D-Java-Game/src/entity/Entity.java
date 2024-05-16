@@ -6,6 +6,8 @@ public class Entity {
 
 	private int worldX, worldY;
 	private int speed;
+	private boolean moving;
+	private int pixelCount;
 
 	private BufferedImage up0, down0, left0, right0;
 	private BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
@@ -45,6 +47,22 @@ public class Entity {
 
 	public void setSpeed(int speed) {
 		this.speed = speed;
+	}
+
+	public boolean isMoving() {
+		return moving;
+	}
+
+	public void setMoving(boolean moving) {
+		this.moving = moving;
+	}
+
+	public int getPixelCount() {
+		return pixelCount;
+	}
+
+	public void setPixelCount(int pixelCount) {
+		this.pixelCount = pixelCount;
 	}
 
 	public BufferedImage getUp0() {
