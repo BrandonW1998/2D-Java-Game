@@ -18,6 +18,9 @@ public class Player extends Entity {
 	private final int screenX; // Center of screen X value
 	private final int screenY; // Center of screen Y value
 	private boolean moving;
+	private int pixelCount;
+
+	private int keyBag = 0;
 
 	public Player(GamePanel gp, KeyHandler keyH) {
 		this.gp = gp;
@@ -28,10 +31,12 @@ public class Player extends Entity {
 
 		// COLLISION BOX
 		solidArea = new Rectangle();
-		solidArea.x = 12;
-		solidArea.y = 12;
-		solidArea.width = 21;
-		solidArea.height = 32;
+		solidArea.x = 1;
+		solidArea.y = 1;
+		solidAreaDefX = solidArea.x;
+		solidAreaDefY = solidArea.y;
+		solidArea.width = 46;
+		solidArea.height = 46;
 
 		setDefaultValues();
 		loadPlayerImage();
@@ -42,7 +47,7 @@ public class Player extends Entity {
 		setWorldY(gp.getTileSize() * 8);
 		setSpeed(4);
 		setDirection("down");
-//		setMoving(false);
+		setMoving(false);
 	}
 
 	public void loadPlayerImage() {
@@ -67,25 +72,32 @@ public class Player extends Entity {
 
 	public void update() {
 
-		if (keyH.isUp() == true || keyH.isDown() == true || keyH.isLeft() == true || keyH.isRight() == true) {
-			if (keyH.isUp() == true) {
-				setDirection("up");
-			}
-			if (keyH.isDown() == true) {
-				setDirection("down");
-			}
-			if (keyH.isLeft() == true) {
-				setDirection("left");
-			}
-			if (keyH.isRight() == true) {
-				setDirection("right");
-			}
-			setMoving(true);
+		if (!isMoving()) {
+			if (keyH.isUp() == true || keyH.isDown() == true || keyH.isLeft() == true || keyH.isRight() == true) {
+				if (keyH.isUp() == true) {
+					setDirection("up");
+				}
+				if (keyH.isDown() == true) {
+					setDirection("down");
+				}
+				if (keyH.isLeft() == true) {
+					setDirection("left");
+				}
+				if (keyH.isRight() == true) {
+					setDirection("right");
+				}
+				setMoving(true);
 
-			// Check tile collision
-			setCollisionOn(false);
-			gp.getCollisionH().checkTile(this);
+				// Check tile collision
+				setCollisionOn(false);
+				gp.getCollisionH().checkTile(this);
 
+				// Check object collision
+				int objIndex = gp.getCollisionH().checkObject(this, true);
+				pickUpObject(objIndex);
+			}
+		}
+		if (isMoving()) {
 			// If collision is false, player moves
 			if (!isCollisionOn()) {
 				switch (getDirection()) {
@@ -101,10 +113,8 @@ public class Player extends Entity {
 				case "right":
 					setWorldX(getWorldX() + getSpeed());
 					break;
-
 				}
 			}
-
 			setSpriteCount(getSpriteCount() + 1);
 			if (getSpriteCount() > 15) {
 				if (getSprite() == 1) {
@@ -114,8 +124,33 @@ public class Player extends Entity {
 				}
 				setSpriteCount(0);
 			}
-		} else {
-			setMoving(false);
+
+			pixelCount += getSpeed();
+			if (pixelCount == 48) {
+				moving = false;
+				pixelCount = 0;
+			}
+		}
+	}
+
+	public void pickUpObject(int index) {
+
+		if (index != -1) {
+
+			String objName = gp.getObjArray()[index].getName();
+
+			switch (objName) {
+			case "key":
+				keyBag++;
+				gp.getObjArray()[index] = null;
+				break;
+			case "door":
+				if (keyBag > 0) {
+					gp.getObjArray()[index] = null;
+					keyBag--;
+				}
+				break;
+			}
 		}
 	}
 
@@ -182,6 +217,22 @@ public class Player extends Entity {
 
 	public void setMoving(boolean moving) {
 		this.moving = moving;
+	}
+
+	public int getPixelCount() {
+		return pixelCount;
+	}
+
+	public void setPixelCount(int pixelCount) {
+		this.pixelCount = pixelCount;
+	}
+
+	public int getKeyBag() {
+		return keyBag;
+	}
+
+	public void setKeyBag(int keyBag) {
+		this.keyBag = keyBag;
 	}
 
 	public GamePanel getGp() {

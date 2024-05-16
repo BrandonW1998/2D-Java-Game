@@ -61,4 +61,73 @@ public class CollisionHandler {
 
 		}
 	}
+
+	public int checkObject(Entity entity, boolean isPlayer) {
+		int index = -1;
+
+		// COLLISION BOX
+		for (int i = 0; i < gp.getObjArray().length; i++) {
+
+			if (gp.getObjArray()[i] != null) {
+
+				entity.solidArea.x = entity.getWorldX() + entity.solidArea.x;
+				entity.solidArea.y = entity.getWorldY() + entity.solidArea.y;
+
+				gp.getObjArray()[i].solidArea.x = gp.getObjArray()[i].getWorldX() + gp.getObjArray()[i].solidArea.x;
+				gp.getObjArray()[i].solidArea.y = gp.getObjArray()[i].getWorldY() + gp.getObjArray()[i].solidArea.y;
+
+				switch (entity.getDirection()) {
+				case "up":
+					entity.solidArea.y -= entity.getSpeed();
+					if (entity.solidArea.intersects(gp.getObjArray()[i].solidArea)) {
+						if (gp.getObjArray()[i].isCollision()) {
+							entity.setCollisionOn(true);
+						}
+						if (isPlayer) {
+							index = i;
+						}
+					}
+					break;
+				case "down":
+					entity.solidArea.y += entity.getSpeed();
+					if (entity.solidArea.intersects(gp.getObjArray()[i].solidArea)) {
+						if (gp.getObjArray()[i].isCollision()) {
+							entity.setCollisionOn(true);
+						}
+						if (isPlayer) {
+							index = i;
+						}
+					}
+					break;
+				case "left":
+					entity.solidArea.x -= entity.getSpeed();
+					if (entity.solidArea.intersects(gp.getObjArray()[i].solidArea)) {
+						if (gp.getObjArray()[i].isCollision()) {
+							entity.setCollisionOn(true);
+						}
+						if (isPlayer) {
+							index = i;
+						}
+					}
+					break;
+				case "right":
+					entity.solidArea.x += entity.getSpeed();
+					if (entity.solidArea.intersects(gp.getObjArray()[i].solidArea)) {
+						if (gp.getObjArray()[i].isCollision()) {
+							entity.setCollisionOn(true);
+						}
+						if (isPlayer) {
+							index = i;
+						}
+					}
+					break;
+				}
+				entity.solidArea.x = entity.solidAreaDefX;
+				entity.solidArea.y = entity.solidAreaDefY;
+				gp.getObjArray()[i].solidArea.x = gp.getObjArray()[i].solidAreaDefX;
+				gp.getObjArray()[i].solidArea.y = gp.getObjArray()[i].solidAreaDefY;
+			}
+		}
+		return index;
+	}
 }

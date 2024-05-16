@@ -15,6 +15,7 @@ public class Entity {
 
 	// COLLISION BOX
 	public Rectangle solidArea;
+	public int solidAreaDefX, solidAreaDefY;
 
 	private int sprite = 1;
 	private int spriteCount = 0;

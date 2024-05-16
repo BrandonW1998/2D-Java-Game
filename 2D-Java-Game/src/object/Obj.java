@@ -1,6 +1,7 @@
 package object;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import main.GamePanel;
@@ -11,6 +12,11 @@ public class Obj {
 	private String name;
 	private boolean collision = false;
 	private int worldX, worldY;
+
+	// COLLISION BOX
+	public Rectangle solidArea = new Rectangle(0, 0, 48, 48);
+	public int solidAreaDefX = 0;
+	public int solidAreaDefY = 0;
 
 	public void draw(Graphics2D frame, GamePanel gp) {
 

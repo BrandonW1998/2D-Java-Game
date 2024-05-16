@@ -13,6 +13,6 @@ public class Obj_Chest extends Obj {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		setCollision(true);
 	}
 }
