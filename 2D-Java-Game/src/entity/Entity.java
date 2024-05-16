@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 public class Entity {
 
-	private int x, y;
+	private int worldX, worldY;
 	private int speed;
 
 	private BufferedImage up0, down0, left0, right0;
@@ -15,20 +15,20 @@ public class Entity {
 	private int spriteCount = 0;
 
 	// GETTER / SETTER METHODS
-	public int getX() {
-		return x;
+	public int getWorldX() {
+		return worldX;
 	}
 
-	public void setX(int x) {
-		this.x = x;
+	public void setWorldX(int worldX) {
+		this.worldX = worldX;
 	}
 
-	public int getY() {
-		return y;
+	public int getWorldY() {
+		return worldY;
 	}
 
-	public void setY(int y) {
-		this.y = y;
+	public void setWorldY(int worldY) {
+		this.worldY = worldY;
 	}
 
 	public int getSpeed() {

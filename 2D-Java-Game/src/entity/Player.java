@@ -13,19 +13,25 @@ public class Player extends Entity {
 
 	private final GamePanel gp;
 	private final KeyHandler keyH;
+
+	private final int screenX; // Center of screen X value
+	private final int screenY; // Center of screen Y value
 	private boolean moving;
 
 	public Player(GamePanel gp, KeyHandler keyH) {
 		this.gp = gp;
 		this.keyH = keyH;
 
+		screenX = gp.getScreenWidth() / 2 - (gp.getTileSize() / 2);
+		screenY = gp.getScreenHeight() / 2 - (gp.getTileSize() / 2);
+
 		setDefaultValues();
 		loadPlayerImage();
 	}
 
 	public void setDefaultValues() {
-		setX(gp.getScreenWidth() / 2 - (gp.getTileSize() / 2));
-		setY(gp.getScreenHeight() / 2 - (gp.getTileSize() / 2));
+		setWorldX(gp.getTileSize() * 10);
+		setWorldY(gp.getTileSize() * 10);
 		setSpeed(4);
 		setDirection("down");
 		setMoving(false);
@@ -56,19 +62,19 @@ public class Player extends Entity {
 		if (keyH.isUp() == true || keyH.isDown() == true || keyH.isLeft() == true || keyH.isRight() == true) {
 			if (keyH.isUp() == true) {
 				setDirection("up");
-				setY(getY() - getSpeed());
+				setWorldY(getWorldY() - getSpeed());
 			}
 			if (keyH.isDown() == true) {
 				setDirection("down");
-				setY(getY() + getSpeed());
+				setWorldY(getWorldY() + getSpeed());
 			}
 			if (keyH.isLeft() == true) {
 				setDirection("left");
-				setX(getX() - getSpeed());
+				setWorldX(getWorldX() - getSpeed());
 			}
 			if (keyH.isRight() == true) {
 				setDirection("right");
-				setX(getX() + getSpeed());
+				setWorldX(getWorldX() + getSpeed());
 			}
 			setMoving(true);
 
@@ -140,7 +146,7 @@ public class Player extends Entity {
 			break;
 		}
 
-		frame.drawImage(image, getX(), getY(), gp.getTileSize(), gp.getTileSize(), null);
+		frame.drawImage(image, screenX, screenY, gp.getTileSize(), gp.getTileSize(), null);
 	}
 
 	public boolean isMoving() {
@@ -149,5 +155,21 @@ public class Player extends Entity {
 
 	public void setMoving(boolean moving) {
 		this.moving = moving;
+	}
+
+	public GamePanel getGp() {
+		return gp;
+	}
+
+	public KeyHandler getKeyH() {
+		return keyH;
+	}
+
+	public int getScreenX() {
+		return screenX;
+	}
+
+	public int getScreenY() {
+		return screenY;
 	}
 }

@@ -20,7 +20,7 @@ public class TileHandler {
 	public TileHandler(GamePanel gp) {
 		this.gp = gp;
 		tile = new Tile[10];
-		tileMap = new int[gp.getMaxScreenCol()][gp.getMaxScreenRow()];
+		tileMap = new int[gp.getMaxWorldCol()][gp.getMaxWorldRow()];
 
 		loadTileImage();
 		loadMap("/map/map1.txt");
@@ -65,10 +65,10 @@ public class TileHandler {
 			int col = 0;
 			int row = 0;
 
-			while (col < gp.getMaxScreenCol() && row < gp.getMaxScreenRow()) {
+			while (col < gp.getMaxWorldCol() && row < gp.getMaxWorldRow()) {
 				String line = bReader.readLine();
 
-				while (col < gp.getMaxScreenCol()) {
+				while (col < gp.getMaxWorldCol()) {
 					String numbers[] = line.split(" ");
 
 					int num = Integer.parseInt(numbers[col]);
@@ -76,7 +76,7 @@ public class TileHandler {
 					tileMap[col][row] = num;
 					col++;
 				}
-				if (col == gp.getMaxScreenCol()) {
+				if (col == gp.getMaxWorldCol()) {
 					col = 0;
 					row++;
 				}
@@ -89,24 +89,24 @@ public class TileHandler {
 
 	public void draw(Graphics2D frame) {
 
-		int col = 0;
-		int row = 0;
-		int x = 0;
-		int y = 0;
+		int worldCol = 0;
+		int worldRow = 0;
 
-		while (col < gp.getMaxScreenCol() && row < gp.getMaxScreenRow()) {
+		while (worldCol < gp.getMaxWorldCol() && worldRow < gp.getMaxWorldRow()) {
 
-			int tileNum = tileMap[col][row];
+			int tileNum = tileMap[worldCol][worldRow];
 
-			frame.drawImage(tile[tileNum].getImage(), x, y, gp.getTileSize(), gp.getTileSize(), null);
-			col++;
-			x += gp.getTileSize();
+			int worldX = worldCol * gp.getTileSize();
+			int worldY = worldRow * gp.getTileSize();
+			int screenX = worldX - gp.getPlayer().getWorldX() + gp.getPlayer().getScreenX();
+			int screenY = worldY - gp.getPlayer().getWorldY() + gp.getPlayer().getScreenY();
 
-			if (col == gp.getMaxScreenCol()) {
-				col = 0;
-				x = 0;
-				row++;
-				y += gp.getTileSize();
+			frame.drawImage(tile[tileNum].getImage(), screenX, screenY, gp.getTileSize(), gp.getTileSize(), null);
+			worldCol++;
+
+			if (worldCol == gp.getMaxWorldCol()) {
+				worldCol = 0;
+				worldRow++;
 			}
 		}
 	}
