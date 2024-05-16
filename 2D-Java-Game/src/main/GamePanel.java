@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import entity.Player;
 import util.KeyHandler;
+import util.TileHandler;
 
 public class GamePanel extends JPanel implements Runnable {
 	private static final long serialVersionUID = 1L;
@@ -27,6 +28,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	// SYSTEMS / UTILITIES
 	private final KeyHandler keyH = new KeyHandler();
+	private final TileHandler tileH = new TileHandler(this);
 
 	// THREADS
 	private Thread gameThread;
@@ -89,6 +91,8 @@ public class GamePanel extends JPanel implements Runnable {
 		super.paintComponent(g);
 		Graphics2D frame = (Graphics2D) g;
 
+		tileH.draw(frame);
+
 		player.draw(frame);
 
 		frame.dispose();
@@ -97,5 +101,57 @@ public class GamePanel extends JPanel implements Runnable {
 	// GETTER / SETTER METHODS
 	public int getTileSize() {
 		return tileSize;
+	}
+
+	public Thread getGameThread() {
+		return gameThread;
+	}
+
+	public void setGameThread(Thread gameThread) {
+		this.gameThread = gameThread;
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
+	public int getInitTileSize() {
+		return initTileSize;
+	}
+
+	public int getScale() {
+		return scale;
+	}
+
+	public int getMaxScreenCol() {
+		return maxScreenCol;
+	}
+
+	public int getMaxScreenRow() {
+		return maxScreenRow;
+	}
+
+	public int getScreenWidth() {
+		return screenWidth;
+	}
+
+	public int getScreenHeight() {
+		return screenHeight;
+	}
+
+	public int getFps() {
+		return fps;
+	}
+
+	public KeyHandler getKeyH() {
+		return keyH;
+	}
+
+	public TileHandler getTileH() {
+		return tileH;
 	}
 }

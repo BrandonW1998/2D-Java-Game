@@ -20,18 +20,18 @@ public class Player extends Entity {
 		this.keyH = keyH;
 
 		setDefaultValues();
-		getPlayerImage();
+		loadPlayerImage();
 	}
 
 	public void setDefaultValues() {
-		setX(100);
-		setY(100);
+		setX(gp.getScreenWidth() / 2 - (gp.getTileSize() / 2));
+		setY(gp.getScreenHeight() / 2 - (gp.getTileSize() / 2));
 		setSpeed(4);
 		setDirection("down");
 		setMoving(false);
 	}
 
-	public void getPlayerImage() {
+	public void loadPlayerImage() {
 
 		try {
 			setUp0(ImageIO.read(getClass().getResourceAsStream("/player/player_up0.png")));
