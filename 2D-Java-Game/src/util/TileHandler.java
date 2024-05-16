@@ -1,7 +1,10 @@
 package util;
 
 import java.awt.Graphics2D;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import javax.imageio.ImageIO;
 
@@ -12,12 +15,15 @@ public class TileHandler {
 
 	private final GamePanel gp;
 	private Tile[] tile;
+	private int[][] tileMap;
 
 	public TileHandler(GamePanel gp) {
 		this.gp = gp;
 		tile = new Tile[10];
+		tileMap = new int[gp.getMaxScreenCol()][gp.getMaxScreenRow()];
 
 		loadTileImage();
+		loadMap("/map/map1.txt");
 	}
 
 	public void loadTileImage() {
@@ -50,6 +56,37 @@ public class TileHandler {
 		}
 	}
 
+	public void loadMap(String filePath) {
+
+		try {
+			InputStream inStream = getClass().getResourceAsStream(filePath);
+			BufferedReader bReader = new BufferedReader(new InputStreamReader(inStream));
+
+			int col = 0;
+			int row = 0;
+
+			while (col < gp.getMaxScreenCol() && row < gp.getMaxScreenRow()) {
+				String line = bReader.readLine();
+
+				while (col < gp.getMaxScreenCol()) {
+					String numbers[] = line.split(" ");
+
+					int num = Integer.parseInt(numbers[col]);
+
+					tileMap[col][row] = num;
+					col++;
+				}
+				if (col == gp.getMaxScreenCol()) {
+					col = 0;
+					row++;
+				}
+			}
+			bReader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void draw(Graphics2D frame) {
 
 		int col = 0;
@@ -59,7 +96,9 @@ public class TileHandler {
 
 		while (col < gp.getMaxScreenCol() && row < gp.getMaxScreenRow()) {
 
-			frame.drawImage(tile[0].getImage(), x, y, gp.getTileSize(), gp.getTileSize(), null);
+			int tileNum = tileMap[col][row];
+
+			frame.drawImage(tile[tileNum].getImage(), x, y, gp.getTileSize(), gp.getTileSize(), null);
 			col++;
 			x += gp.getTileSize();
 
