@@ -1,7 +1,6 @@
 package entity;
 
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -29,15 +28,6 @@ public class Player extends Entity {
 		screenX = gp.getScreenWidth() / 2 - (gp.getTileSize() / 2);
 		screenY = gp.getScreenHeight() / 2 - (gp.getTileSize() / 2);
 
-		// COLLISION BOX
-		solidArea = new Rectangle();
-		solidArea.x = 1;
-		solidArea.y = 1;
-		solidAreaDefX = solidArea.x;
-		solidAreaDefY = solidArea.y;
-		solidArea.width = 46;
-		solidArea.height = 46;
-
 		setDefaultValues();
 		loadPlayerImage();
 	}
@@ -45,7 +35,7 @@ public class Player extends Entity {
 	public void setDefaultValues() {
 		setWorldX(gp.getTileSize() * 10);
 		setWorldY(gp.getTileSize() * 8);
-		setSpeed(4);
+		setSpeed(3);
 		setDirection("down");
 		setMoving(false);
 	}
@@ -73,17 +63,17 @@ public class Player extends Entity {
 	public void update() {
 
 		if (!isMoving()) {
-			if (keyH.isUp() == true || keyH.isDown() == true || keyH.isLeft() == true || keyH.isRight() == true) {
-				if (keyH.isUp() == true) {
+			if (keyH.isUp() || keyH.isDown() || keyH.isLeft() || keyH.isRight()) {
+				if (keyH.isUp()) {
 					setDirection("up");
 				}
-				if (keyH.isDown() == true) {
+				if (keyH.isDown()) {
 					setDirection("down");
 				}
-				if (keyH.isLeft() == true) {
+				if (keyH.isLeft()) {
 					setDirection("left");
 				}
-				if (keyH.isRight() == true) {
+				if (keyH.isRight()) {
 					setDirection("right");
 				}
 				setMoving(true);
@@ -115,19 +105,10 @@ public class Player extends Entity {
 					break;
 				}
 			}
-			setSpriteCount(getSpriteCount() + 1);
-			if (getSpriteCount() > 15) {
-				if (getSprite() == 1) {
-					setSprite(2);
-				} else if (getSprite() == 2) {
-					setSprite(1);
-				}
-				setSpriteCount(0);
-			}
-
 			pixelCount += getSpeed();
 			if (pixelCount == 48) {
 				moving = false;
+				altSprite();
 				pixelCount = 0;
 			}
 		}

@@ -1,6 +1,5 @@
 package entity;
 
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 public class Entity {
@@ -13,12 +12,15 @@ public class Entity {
 	private String direction;
 	private boolean collisionOn = false;
 
-	// COLLISION BOX
-	public Rectangle solidArea;
-	public int solidAreaDefX, solidAreaDefY;
-
 	private int sprite = 1;
-	private int spriteCount = 0;
+
+	// Alternate sprite (following 1 tile movement)
+	public void altSprite() {
+		if (sprite == 1)
+			sprite = 2;
+		else
+			sprite = 1;
+	}
 
 	// GETTER / SETTER METHODS
 	public int getWorldX() {
@@ -163,13 +165,5 @@ public class Entity {
 
 	public void setSprite(int sprite) {
 		this.sprite = sprite;
-	}
-
-	public int getSpriteCount() {
-		return spriteCount;
-	}
-
-	public void setSpriteCount(int spriteCount) {
-		this.spriteCount = spriteCount;
 	}
 }

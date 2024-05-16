@@ -12,53 +12,36 @@ public class CollisionHandler {
 	}
 
 	public void checkTile(Entity entity) {
+		// Entity's tile position (x, y)
+		int entTileX = entity.getWorldX() / gp.getTileSize();
+		int entTileY = entity.getWorldY() / gp.getTileSize();
 
-		// COLLISION BOX
-		int entityLeftWorldX = entity.getWorldX() + entity.solidArea.x;
-		int entityRightWorldX = entity.getWorldX() + entity.solidArea.x + entity.solidArea.width;
-		int entityTopWorldY = entity.getWorldY() + entity.solidArea.y;
-		int entityBottomWorldY = entity.getWorldY() + entity.solidArea.y + entity.solidArea.height;
-		int entityLeftCol = entityLeftWorldX / gp.getTileSize();
-		int entityRightCol = entityRightWorldX / gp.getTileSize();
-		int entityTopRow = entityTopWorldY / gp.getTileSize();
-		int entityBottomRow = entityBottomWorldY / gp.getTileSize();
-
-		int tileNum1, tileNum2;
+		int tileUp = gp.getTileH().getTileMap()[entTileX][entTileY - 1];
+		int tileDown = gp.getTileH().getTileMap()[entTileX][entTileY + 1];
+		int tileLeft = gp.getTileH().getTileMap()[entTileX - 1][entTileY];
+		int tileRight = gp.getTileH().getTileMap()[entTileX + 1][entTileY];
 
 		switch (entity.getDirection()) {
 		case "up":
-			entityTopRow = (entityTopWorldY - entity.getSpeed()) / gp.getTileSize();
-			tileNum1 = gp.getTileH().getTileMap()[entityLeftCol][entityTopRow];
-			tileNum2 = gp.getTileH().getTileMap()[entityRightCol][entityTopRow];
-			if (gp.getTileH().getTile()[tileNum1].isCollision() || gp.getTileH().getTile()[tileNum2].isCollision()) {
+			if (gp.getTileH().getTile()[tileUp].isCollision()) {
 				entity.setCollisionOn(true);
 			}
 			break;
 		case "down":
-			entityBottomRow = (entityBottomWorldY + entity.getSpeed()) / gp.getTileSize();
-			tileNum1 = gp.getTileH().getTileMap()[entityLeftCol][entityBottomRow];
-			tileNum2 = gp.getTileH().getTileMap()[entityRightCol][entityBottomRow];
-			if (gp.getTileH().getTile()[tileNum1].isCollision() || gp.getTileH().getTile()[tileNum2].isCollision()) {
+			if (gp.getTileH().getTile()[tileDown].isCollision()) {
 				entity.setCollisionOn(true);
 			}
 			break;
 		case "left":
-			entityLeftCol = (entityLeftWorldX - entity.getSpeed()) / gp.getTileSize();
-			tileNum1 = gp.getTileH().getTileMap()[entityLeftCol][entityTopRow];
-			tileNum2 = gp.getTileH().getTileMap()[entityLeftCol][entityBottomRow];
-			if (gp.getTileH().getTile()[tileNum1].isCollision() || gp.getTileH().getTile()[tileNum2].isCollision()) {
+			if (gp.getTileH().getTile()[tileLeft].isCollision()) {
 				entity.setCollisionOn(true);
 			}
 			break;
 		case "right":
-			entityRightCol = (entityRightWorldX + entity.getSpeed()) / gp.getTileSize();
-			tileNum1 = gp.getTileH().getTileMap()[entityRightCol][entityTopRow];
-			tileNum2 = gp.getTileH().getTileMap()[entityRightCol][entityBottomRow];
-			if (gp.getTileH().getTile()[tileNum1].isCollision() || gp.getTileH().getTile()[tileNum2].isCollision()) {
+			if (gp.getTileH().getTile()[tileRight].isCollision()) {
 				entity.setCollisionOn(true);
 			}
 			break;
-
 		}
 	}
 
@@ -69,17 +52,17 @@ public class CollisionHandler {
 		for (int i = 0; i < gp.getObjArray().length; i++) {
 
 			if (gp.getObjArray()[i] != null) {
+				// Entity's tile position (x, y)
+				int entTileX = entity.getWorldX() / gp.getTileSize();
+				int entTileY = entity.getWorldY() / gp.getTileSize();
 
-				entity.solidArea.x = entity.getWorldX() + entity.solidArea.x;
-				entity.solidArea.y = entity.getWorldY() + entity.solidArea.y;
-
-				gp.getObjArray()[i].solidArea.x = gp.getObjArray()[i].getWorldX() + gp.getObjArray()[i].solidArea.x;
-				gp.getObjArray()[i].solidArea.y = gp.getObjArray()[i].getWorldY() + gp.getObjArray()[i].solidArea.y;
+				// Object's tile position (x, y)
+				int objTileX = gp.getObjArray()[i].getWorldX() / gp.getTileSize();
+				int objTileY = gp.getObjArray()[i].getWorldY() / gp.getTileSize();
 
 				switch (entity.getDirection()) {
 				case "up":
-					entity.solidArea.y -= entity.getSpeed();
-					if (entity.solidArea.intersects(gp.getObjArray()[i].solidArea)) {
+					if (entTileX == objTileX && entTileY - 1 == objTileY) {
 						if (gp.getObjArray()[i].isCollision()) {
 							entity.setCollisionOn(true);
 						}
@@ -89,8 +72,7 @@ public class CollisionHandler {
 					}
 					break;
 				case "down":
-					entity.solidArea.y += entity.getSpeed();
-					if (entity.solidArea.intersects(gp.getObjArray()[i].solidArea)) {
+					if (entTileX == objTileX && entTileY + 1 == objTileY) {
 						if (gp.getObjArray()[i].isCollision()) {
 							entity.setCollisionOn(true);
 						}
@@ -100,8 +82,7 @@ public class CollisionHandler {
 					}
 					break;
 				case "left":
-					entity.solidArea.x -= entity.getSpeed();
-					if (entity.solidArea.intersects(gp.getObjArray()[i].solidArea)) {
+					if (entTileX - 1 == objTileX && entTileY == objTileY) {
 						if (gp.getObjArray()[i].isCollision()) {
 							entity.setCollisionOn(true);
 						}
@@ -111,8 +92,7 @@ public class CollisionHandler {
 					}
 					break;
 				case "right":
-					entity.solidArea.x += entity.getSpeed();
-					if (entity.solidArea.intersects(gp.getObjArray()[i].solidArea)) {
+					if (entTileX + 1 == objTileX && entTileY == objTileY) {
 						if (gp.getObjArray()[i].isCollision()) {
 							entity.setCollisionOn(true);
 						}
@@ -122,10 +102,6 @@ public class CollisionHandler {
 					}
 					break;
 				}
-				entity.solidArea.x = entity.solidAreaDefX;
-				entity.solidArea.y = entity.solidAreaDefY;
-				gp.getObjArray()[i].solidArea.x = gp.getObjArray()[i].solidAreaDefX;
-				gp.getObjArray()[i].solidArea.y = gp.getObjArray()[i].solidAreaDefY;
 			}
 		}
 		return index;
