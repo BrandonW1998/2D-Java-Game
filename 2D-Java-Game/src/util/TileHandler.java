@@ -30,11 +30,9 @@ public class TileHandler {
 		try {
 			tile[0] = new Tile();
 			tile[0].setImage(ImageIO.read(getClass().getResourceAsStream("/tile/floor.png")));
-			tile[0].setCollision(false);
 
 			tile[1] = new Tile();
 			tile[1].setImage(ImageIO.read(getClass().getResourceAsStream("/tile/grass.png")));
-			tile[1].setCollision(false);
 
 			tile[2] = new Tile();
 			tile[2].setImage(ImageIO.read(getClass().getResourceAsStream("/tile/tree.png")));
@@ -50,7 +48,6 @@ public class TileHandler {
 
 			tile[5] = new Tile();
 			tile[5].setImage(ImageIO.read(getClass().getResourceAsStream("/tile/wood.png")));
-			tile[5].setCollision(false);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -109,5 +106,26 @@ public class TileHandler {
 				worldRow++;
 			}
 		}
+	}
+
+	// GETTER / SETTER METHODS
+	public Tile[] getTile() {
+		return tile;
+	}
+
+	public void setTile(Tile[] tile) {
+		this.tile = tile;
+	}
+
+	public int[][] getTileMap() {
+		return tileMap;
+	}
+
+	public void setTileMap(int[][] tileMap) {
+		this.tileMap = tileMap;
+	}
+
+	public GamePanel getGp() {
+		return gp;
 	}
 }

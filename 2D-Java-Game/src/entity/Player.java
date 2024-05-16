@@ -1,6 +1,7 @@
 package entity;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -24,6 +25,13 @@ public class Player extends Entity {
 
 		screenX = gp.getScreenWidth() / 2 - (gp.getTileSize() / 2);
 		screenY = gp.getScreenHeight() / 2 - (gp.getTileSize() / 2);
+
+		// COLLISION BOX
+		solidArea = new Rectangle();
+		solidArea.x = 12;
+		solidArea.y = 12;
+		solidArea.width = 24;
+		solidArea.height = 24;
 
 		setDefaultValues();
 		loadPlayerImage();
@@ -62,21 +70,40 @@ public class Player extends Entity {
 		if (keyH.isUp() == true || keyH.isDown() == true || keyH.isLeft() == true || keyH.isRight() == true) {
 			if (keyH.isUp() == true) {
 				setDirection("up");
-				setWorldY(getWorldY() - getSpeed());
 			}
 			if (keyH.isDown() == true) {
 				setDirection("down");
-				setWorldY(getWorldY() + getSpeed());
 			}
 			if (keyH.isLeft() == true) {
 				setDirection("left");
-				setWorldX(getWorldX() - getSpeed());
 			}
 			if (keyH.isRight() == true) {
 				setDirection("right");
-				setWorldX(getWorldX() + getSpeed());
 			}
 			setMoving(true);
+
+			// Check tile collision
+			setCollisionOn(false);
+			gp.getCollisionH().checkTile(this);
+
+			// If collision is false, player moves
+			if (!isCollisionOn()) {
+				switch (getDirection()) {
+				case "up":
+					setWorldY(getWorldY() - getSpeed());
+					break;
+				case "down":
+					setWorldY(getWorldY() + getSpeed());
+					break;
+				case "left":
+					setWorldX(getWorldX() - getSpeed());
+					break;
+				case "right":
+					setWorldX(getWorldX() + getSpeed());
+					break;
+
+				}
+			}
 
 			setSpriteCount(getSpriteCount() + 1);
 			if (getSpriteCount() > 15) {

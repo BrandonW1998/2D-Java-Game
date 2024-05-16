@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import entity.Player;
+import util.CollisionHandler;
 import util.KeyHandler;
 import util.TileHandler;
 
@@ -33,6 +34,7 @@ public class GamePanel extends JPanel implements Runnable {
 	private final int fps = 60;
 
 	// SYSTEMS / UTILITIES
+	private final CollisionHandler collisionH = new CollisionHandler(this);
 	private final KeyHandler keyH = new KeyHandler();
 	private final TileHandler tileH = new TileHandler(this);
 
@@ -167,6 +169,10 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public int getFps() {
 		return fps;
+	}
+
+	public CollisionHandler getCollisionH() {
+		return collisionH;
 	}
 
 	public KeyHandler getKeyH() {

@@ -1,5 +1,6 @@
 package entity;
 
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 public class Entity {
@@ -10,6 +11,10 @@ public class Entity {
 	private BufferedImage up0, down0, left0, right0;
 	private BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
 	private String direction;
+	private boolean collisionOn = false;
+
+	// COLLISION BOX
+	public Rectangle solidArea;
 
 	private int sprite = 1;
 	private int spriteCount = 0;
@@ -141,6 +146,14 @@ public class Entity {
 
 	public void setDirection(String direction) {
 		this.direction = direction;
+	}
+
+	public boolean isCollisionOn() {
+		return collisionOn;
+	}
+
+	public void setCollisionOn(boolean collisionOn) {
+		this.collisionOn = collisionOn;
 	}
 
 	public int getSprite() {
