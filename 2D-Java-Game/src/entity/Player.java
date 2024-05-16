@@ -30,8 +30,8 @@ public class Player extends Entity {
 		solidArea = new Rectangle();
 		solidArea.x = 12;
 		solidArea.y = 12;
-		solidArea.width = 24;
-		solidArea.height = 24;
+		solidArea.width = 21;
+		solidArea.height = 32;
 
 		setDefaultValues();
 		loadPlayerImage();
@@ -39,10 +39,10 @@ public class Player extends Entity {
 
 	public void setDefaultValues() {
 		setWorldX(gp.getTileSize() * 10);
-		setWorldY(gp.getTileSize() * 10);
+		setWorldY(gp.getTileSize() * 8);
 		setSpeed(4);
 		setDirection("down");
-		setMoving(false);
+//		setMoving(false);
 	}
 
 	public void loadPlayerImage() {

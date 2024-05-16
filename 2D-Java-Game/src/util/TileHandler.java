@@ -98,7 +98,12 @@ public class TileHandler {
 			int screenX = worldX - gp.getPlayer().getWorldX() + gp.getPlayer().getScreenX();
 			int screenY = worldY - gp.getPlayer().getWorldY() + gp.getPlayer().getScreenY();
 
-			frame.drawImage(tile[tileNum].getImage(), screenX, screenY, gp.getTileSize(), gp.getTileSize(), null);
+			if (worldX + gp.getTileSize() > gp.getPlayer().getWorldX() - gp.getPlayer().getScreenX()
+					&& worldX - gp.getTileSize() < gp.getPlayer().getWorldX() + gp.getPlayer().getScreenX()
+					&& worldY + gp.getTileSize() > gp.getPlayer().getWorldY() - gp.getPlayer().getScreenY()
+					&& worldY - gp.getTileSize() < gp.getPlayer().getWorldY() + gp.getPlayer().getScreenY()) {
+				frame.drawImage(tile[tileNum].getImage(), screenX, screenY, gp.getTileSize(), gp.getTileSize(), null);
+			}
 			worldCol++;
 
 			if (worldCol == gp.getMaxWorldCol()) {

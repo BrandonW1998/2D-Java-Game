@@ -8,6 +8,8 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import entity.Player;
+import object.Obj;
+import util.AssetHandler;
 import util.CollisionHandler;
 import util.KeyHandler;
 import util.TileHandler;
@@ -34,6 +36,7 @@ public class GamePanel extends JPanel implements Runnable {
 	private final int fps = 60;
 
 	// SYSTEMS / UTILITIES
+	private final AssetHandler assetH = new AssetHandler(this);
 	private final CollisionHandler collisionH = new CollisionHandler(this);
 	private final KeyHandler keyH = new KeyHandler();
 	private final TileHandler tileH = new TileHandler(this);
@@ -43,6 +46,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	// ASSETS / HOLDERS
 	private Player player = new Player(this, keyH);
+	private Obj[] objArray = new Obj[10];
 
 	// GamePanel Constructor
 	public GamePanel() {
@@ -51,6 +55,10 @@ public class GamePanel extends JPanel implements Runnable {
 		this.setDoubleBuffered(true);
 		this.addKeyListener(keyH);
 		this.setFocusable(true);
+	}
+
+	public void setupGame() {
+		assetH.setObject();
 	}
 
 	// Create and run game thread
@@ -100,6 +108,12 @@ public class GamePanel extends JPanel implements Runnable {
 		Graphics2D frame = (Graphics2D) g;
 
 		tileH.draw(frame);
+
+		for (int i = 0; i < objArray.length; i++) {
+			if (objArray[i] != null) {
+				objArray[i].draw(frame, this);
+			}
+		}
 
 		player.draw(frame);
 
@@ -181,5 +195,17 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public TileHandler getTileH() {
 		return tileH;
+	}
+
+	public Obj[] getObjArray() {
+		return objArray;
+	}
+
+	public void setObjArray(Obj[] objArray) {
+		this.objArray = objArray;
+	}
+
+	public AssetHandler getAssetH() {
+		return assetH;
 	}
 }
