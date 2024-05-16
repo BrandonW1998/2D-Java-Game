@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import entity.Player;
 import util.KeyHandler;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -27,12 +28,11 @@ public class GamePanel extends JPanel implements Runnable {
 	// SYSTEMS / UTILITIES
 	private final KeyHandler keyH = new KeyHandler();
 
-	Thread gameThread; // Game-play thread
+	// THREADS
+	private Thread gameThread;
 
-	// PLAYER DEFAULT VALUES
-	private int pX = 100;
-	private int pY = 100;
-	private int pSpeed = 4;
+	// ASSETS / HOLDERS
+	private Player player = new Player(this, keyH);
 
 	// GamePanel Constructor
 	public GamePanel() {
@@ -43,6 +43,7 @@ public class GamePanel extends JPanel implements Runnable {
 		this.setFocusable(true);
 	}
 
+	// Create and run game thread
 	public void startGameThread() {
 		gameThread = new Thread(this);
 		gameThread.start();
@@ -80,24 +81,21 @@ public class GamePanel extends JPanel implements Runnable {
 
 	// Update game variables
 	public void update() {
-
-		if (keyH.up == true)
-			pY -= pSpeed;
-		if (keyH.down == true)
-			pY += pSpeed;
-		if (keyH.left == true)
-			pX -= pSpeed;
-		if (keyH.right == true)
-			pX += pSpeed;
+		player.update();
 	}
 
 	// Paint frame
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
 		Graphics2D frame = (Graphics2D) g;
 
-		frame.fillRect(pX, pY, tileSize, tileSize);
+		player.draw(frame);
+
 		frame.dispose();
+	}
+
+	// GETTER / SETTER METHODS
+	public int getTileSize() {
+		return tileSize;
 	}
 }
