@@ -7,14 +7,18 @@ import object.Obj_Key;
 
 public class AssetHandler {
 
-	GamePanel gp;
+	// SYSTEMS / TOOLS
+	private final GamePanel gp;
 
+	// AssetHandler Constructor
 	public AssetHandler(GamePanel gp) {
 		this.gp = gp;
 	}
 
+	// Create objects
+	// Place in objArray
+	// Initialize position
 	public void setObject() {
-
 		gp.getObjArray()[0] = new Obj_Key();
 		gp.getObjArray()[0].setWorldX(gp.getTileSize() * 8);
 		gp.getObjArray()[0].setWorldY(gp.getTileSize() * 8);

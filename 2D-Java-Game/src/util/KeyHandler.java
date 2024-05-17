@@ -5,17 +5,23 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
 
-	private boolean up, down, left, right, interact;
+	// Directional button flags
+	private boolean up, down, left, right;
+
+	// Interaction button flag
+	private boolean interact;
 
 	@Override
 	public void keyTyped(KeyEvent e) {
 	}
 
+	// Listen for key press
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// Capture key press
 		int code = e.getKeyCode();
 
+		// (WASD) Movement
 		if (code == KeyEvent.VK_W)
 			up = true;
 		if (code == KeyEvent.VK_S)
@@ -26,11 +32,13 @@ public class KeyHandler implements KeyListener {
 			right = true;
 	}
 
+	// Listen for key release
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// Capture key press
 		int code = e.getKeyCode();
 
+		// (WASD) Movement
 		if (code == KeyEvent.VK_W)
 			up = false;
 		if (code == KeyEvent.VK_S)
@@ -41,6 +49,7 @@ public class KeyHandler implements KeyListener {
 			right = false;
 	}
 
+	// GETTER / SETTER METHODS
 	public boolean isUp() {
 		return up;
 	}

@@ -11,18 +11,23 @@ import util.KeyHandler;
 
 public class Player extends Entity {
 
+	// SYSTEMS / TOOLS
 	private final GamePanel gp;
 	private final KeyHandler keyH;
 
+	// Entity variables
 	private final int screenX; // Center of screen X value
 	private final int screenY; // Center of screen Y value
 
+	// Inventory
 	private int keyBag = 0;
 
+	// Player Constructor
 	public Player(GamePanel gp, KeyHandler keyH) {
 		this.gp = gp;
 		this.keyH = keyH;
 
+		// Calculate center of display
 		screenX = gp.getScreenWidth() / 2 - (gp.getTileSize() / 2);
 		screenY = gp.getScreenHeight() / 2 - (gp.getTileSize() / 2);
 
@@ -30,16 +35,19 @@ public class Player extends Entity {
 		loadPlayerImage();
 	}
 
+	// Initialize player variables
 	public void setDefaultValues() {
+		// Starting position (10, 8)
 		setWorldX(gp.getTileSize() * 10);
 		setWorldY(gp.getTileSize() * 8);
+		// Standard speed (3 pixels per frame)
 		setSpeed(3);
+		// Start facing down (towards camera)
 		setDirection("down");
-		setMoving(false);
 	}
 
+	// Load images of player
 	public void loadPlayerImage() {
-
 		try {
 			setUp0(ImageIO.read(getClass().getResourceAsStream("/player/player_up0.png")));
 			setUp1(ImageIO.read(getClass().getResourceAsStream("/player/player_up1.png")));
@@ -58,9 +66,12 @@ public class Player extends Entity {
 		}
 	}
 
+	// Update player variables (called every frame)
 	public void update() {
-
+		// If player IS NOT moving
 		if (!isMoving()) {
+			// If movement key is pressed
+			// Change player's facing direction
 			if (keyH.isUp() || keyH.isDown() || keyH.isLeft() || keyH.isRight()) {
 				if (keyH.isUp()) {
 					setDirection("up");
@@ -74,6 +85,7 @@ public class Player extends Entity {
 				if (keyH.isRight()) {
 					setDirection("right");
 				}
+				// Set moving flag (to play animation)
 				setMoving(true);
 
 				// Check tile collision
@@ -85,8 +97,10 @@ public class Player extends Entity {
 				pickUpObject(objIndex);
 			}
 		}
+		// If player IS moving
 		if (isMoving()) {
-			// If collision is false, player moves
+			// If no collision
+			// Move player
 			if (!isCollisionOn()) {
 				switch (getDirection()) {
 				case "up":
@@ -103,7 +117,12 @@ public class Player extends Entity {
 					break;
 				}
 			}
+			// Track number of pixels moved
 			setPixelCount(getPixelCount() + getSpeed());
+			// If moved 1 tile
+			// Stop movement
+			// Alternate sprite to use for next movement
+			// Reset counter
 			if (getPixelCount() == 48) {
 				setMoving(false);
 				altSprite();
@@ -112,17 +131,20 @@ public class Player extends Entity {
 		}
 	}
 
+	// Action when object is interacted/collided with
 	public void pickUpObject(int index) {
-
+		// If NOT an object
 		if (index != -1) {
-
+			// Name of object to pickup
 			String objName = gp.getObjArray()[index].getName();
 
 			switch (objName) {
+			// Pickup a key
 			case "key":
 				keyBag++;
 				gp.getObjArray()[index] = null;
 				break;
+			// Use a key on door
 			case "door":
 				if (keyBag > 0) {
 					gp.getObjArray()[index] = null;
@@ -133,12 +155,14 @@ public class Player extends Entity {
 		}
 	}
 
+	// Draw player onto frame
 	public void draw(Graphics2D frame) {
 		BufferedImage image = null;
 
+		// Display image in facing direction
 		switch (getDirection()) {
 		case "up":
-			if (!isMoving() || getPixelCount() >= 30) {
+			if (!isMoving() || getPixelCount() >= 27) {
 				image = getUp0();
 				break;
 			}
@@ -150,7 +174,7 @@ public class Player extends Entity {
 			}
 			break;
 		case "down":
-			if (!isMoving() || getPixelCount() >= 30) {
+			if (!isMoving() || getPixelCount() >= 27) {
 				image = getDown0();
 				break;
 			}
@@ -162,7 +186,7 @@ public class Player extends Entity {
 			}
 			break;
 		case "left":
-			if (!isMoving() || getPixelCount() >= 30) {
+			if (!isMoving() || getPixelCount() >= 27) {
 				image = getLeft0();
 				break;
 			}
@@ -174,7 +198,7 @@ public class Player extends Entity {
 			}
 			break;
 		case "right":
-			if (!isMoving() || getPixelCount() >= 30) {
+			if (!isMoving() || getPixelCount() >= 27) {
 				image = getRight0();
 				break;
 			}
@@ -186,10 +210,10 @@ public class Player extends Entity {
 			}
 			break;
 		}
-
 		frame.drawImage(image, screenX, screenY, gp.getTileSize(), gp.getTileSize(), null);
 	}
 
+	// GETTER / SETTER METHODS
 	public int getKeyBag() {
 		return keyBag;
 	}

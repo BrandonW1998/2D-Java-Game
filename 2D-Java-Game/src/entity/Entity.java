@@ -4,22 +4,27 @@ import java.awt.image.BufferedImage;
 
 public class Entity {
 
-	private int worldX, worldY;
-	private int speed;
-	private boolean moving;
-	private int pixelCount;
+	// Entity variables
+	private int worldX, worldY; // Position in world (map)
+	private int speed; // Speed of movement
+	private boolean moving; // Movement flag
+	private int pixelCount; // Number of pixels moved
+	private String direction; // Facing direction (up, down, left, right)
+	private boolean collisionOn = false; // Colliding flag
 
-	private BufferedImage up0, down0, left0, right0;
-	private BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
-	private String direction;
-	private boolean collisionOn = false;
+	// Entity images
+	private BufferedImage up0, down0, left0, right0; // Inert images
+	private BufferedImage up1, up2, down1, down2, left1, left2, right1, right2; // Moving images
 
-	private int sprite = 1;
+	// Entity animating
+	private int sprite = 1; // Picks a moving image to use
 
 	// Alternate sprite (following 1 tile movement)
 	public void altSprite() {
+		// 1 -> 2
 		if (sprite == 1)
 			sprite = 2;
+		// 2 -> 1
 		else
 			sprite = 1;
 	}
@@ -63,6 +68,22 @@ public class Entity {
 
 	public void setPixelCount(int pixelCount) {
 		this.pixelCount = pixelCount;
+	}
+
+	public String getDirection() {
+		return direction;
+	}
+
+	public void setDirection(String direction) {
+		this.direction = direction;
+	}
+
+	public boolean isCollisionOn() {
+		return collisionOn;
+	}
+
+	public void setCollisionOn(boolean collisionOn) {
+		this.collisionOn = collisionOn;
 	}
 
 	public BufferedImage getUp0() {
@@ -159,22 +180,6 @@ public class Entity {
 
 	public void setRight2(BufferedImage right2) {
 		this.right2 = right2;
-	}
-
-	public String getDirection() {
-		return direction;
-	}
-
-	public void setDirection(String direction) {
-		this.direction = direction;
-	}
-
-	public boolean isCollisionOn() {
-		return collisionOn;
-	}
-
-	public void setCollisionOn(boolean collisionOn) {
-		this.collisionOn = collisionOn;
 	}
 
 	public int getSprite() {

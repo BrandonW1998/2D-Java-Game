@@ -1,37 +1,35 @@
 package object;
 
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import main.GamePanel;
 
 public class Obj {
 
-	private BufferedImage image;
-	private String name;
-	private boolean collision = false;
-	private int worldX, worldY;
+	// Object variables
+	private BufferedImage image; // Image of object
+	private String name; // Name of object
+	private boolean collision = false; // Collision flag
+	private int worldX, worldY; // Position in world (map)
 
-	// COLLISION BOX
-	public Rectangle solidArea = new Rectangle(0, 0, 48, 48);
-	public int solidAreaDefX = 0;
-	public int solidAreaDefY = 0;
-
+	// Draw object on frame
 	public void draw(Graphics2D frame, GamePanel gp) {
-
+		// Screen position offset
 		int screenX = worldX - gp.getPlayer().getWorldX() + gp.getPlayer().getScreenX();
 		int screenY = worldY - gp.getPlayer().getWorldY() + gp.getPlayer().getScreenY();
 
+		// If in player view
 		if (worldX + gp.getTileSize() > gp.getPlayer().getWorldX() - gp.getPlayer().getScreenX()
 				&& worldX - gp.getTileSize() < gp.getPlayer().getWorldX() + gp.getPlayer().getScreenX()
 				&& worldY + gp.getTileSize() > gp.getPlayer().getWorldY() - gp.getPlayer().getScreenY()
 				&& worldY - gp.getTileSize() < gp.getPlayer().getWorldY() + gp.getPlayer().getScreenY()) {
+			// Draw object on screen
 			frame.drawImage(image, screenX, screenY, gp.getTileSize(), gp.getTileSize(), null);
 		}
 	}
 
-	// GETTER/ SETTER METHODS
+	// GETTER / SETTER METHODS
 	public BufferedImage getImage() {
 		return image;
 	}

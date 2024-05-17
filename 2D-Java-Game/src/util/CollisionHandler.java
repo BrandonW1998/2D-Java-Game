@@ -5,22 +5,29 @@ import main.GamePanel;
 
 public class CollisionHandler {
 
+	// SYSTEMS / TOOLS
 	private final GamePanel gp;
 
+	// CollisionHandler Constructor
 	public CollisionHandler(GamePanel gp) {
 		this.gp = gp;
 	}
 
+	// Check tiles surrounding entity
 	public void checkTile(Entity entity) {
 		// Entity's tile position (x, y)
 		int entTileX = entity.getWorldX() / gp.getTileSize();
 		int entTileY = entity.getWorldY() / gp.getTileSize();
 
+		// Tiles surrounding entity
 		int tileUp = gp.getTileH().getTileMap()[entTileX][entTileY - 1];
 		int tileDown = gp.getTileH().getTileMap()[entTileX][entTileY + 1];
 		int tileLeft = gp.getTileH().getTileMap()[entTileX - 1][entTileY];
 		int tileRight = gp.getTileH().getTileMap()[entTileX + 1][entTileY];
 
+		// Get tile in front of entity
+		// If collision is found in direction
+		// Set collisionOn flag
 		switch (entity.getDirection()) {
 		case "up":
 			if (gp.getTileH().getTile()[tileUp].isCollision()) {
@@ -45,12 +52,14 @@ public class CollisionHandler {
 		}
 	}
 
+	// Check objects for collisions
 	public int checkObject(Entity entity, boolean isPlayer) {
+		// Default fail case
 		int index = -1;
 
-		// COLLISION BOX
+		// For all objects
 		for (int i = 0; i < gp.getObjArray().length; i++) {
-
+			// If object is present
 			if (gp.getObjArray()[i] != null) {
 				// Entity's tile position (x, y)
 				int entTileX = entity.getWorldX() / gp.getTileSize();
@@ -60,6 +69,11 @@ public class CollisionHandler {
 				int objTileX = gp.getObjArray()[i].getWorldX() / gp.getTileSize();
 				int objTileY = gp.getObjArray()[i].getWorldY() / gp.getTileSize();
 
+				// Check tile in front of entity
+				// If object collided
+				// Set collisionOn flag
+				// If entity is player
+				// Return object's index
 				switch (entity.getDirection()) {
 				case "up":
 					if (entTileX == objTileX && entTileY - 1 == objTileY) {
@@ -104,6 +118,7 @@ public class CollisionHandler {
 				}
 			}
 		}
+		// Default fail case
 		return index;
 	}
 }

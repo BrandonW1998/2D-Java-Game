@@ -27,10 +27,10 @@ public class GamePanel extends JPanel implements Runnable {
 	private final int screenHeight = tileSize * maxScreenRow; // 432 pixels (down)
 
 	// WORLD SETTINGS
-	private final int maxWorldCol = 21;
-	private final int maxWorldRow = 21;
-	private final int worldWidth = tileSize * maxWorldCol;
-	private final int worldHeight = tileSize * maxWorldRow;
+	private final int maxWorldCol = 21; // Number of column tiles on map
+	private final int maxWorldRow = 21; // Number of row tiles on map
+	private final int worldWidth = tileSize * maxWorldCol; // Map's pixel width
+	private final int worldHeight = tileSize * maxWorldRow; // Map's pixel height
 
 	// FRAMES PER SECOND
 	private final int fps = 60;
@@ -45,8 +45,8 @@ public class GamePanel extends JPanel implements Runnable {
 	private Thread gameThread;
 
 	// ASSETS / HOLDERS
-	private Player player = new Player(this, keyH);
-	private Obj[] objArray = new Obj[10];
+	private Player player = new Player(this, keyH); // Player character
+	private Obj[] objArray = new Obj[10]; // Objects to display
 
 	// GamePanel Constructor
 	public GamePanel() {
@@ -57,7 +57,9 @@ public class GamePanel extends JPanel implements Runnable {
 		this.setFocusable(true);
 	}
 
+	// Set up game assets
 	public void setupGame() {
+		// Initialize objects
 		assetH.setObject();
 	}
 
@@ -70,25 +72,35 @@ public class GamePanel extends JPanel implements Runnable {
 	// Run game loop
 	@Override
 	public void run() {
-		double frameRate = 1000000000 / fps;
-		double delta = 0;
-		long preTime = System.nanoTime();
-		long curTime;
-		long timer = 0;
-//		int drawCount = 0;
+		double frameRate = 1000000000 / fps; // Time of one frame (1/60th of a second)
+		double delta = 0; // Difference in previous and current time
+		long preTime = System.nanoTime(); // Previous time
+		long curTime; // Current time
+		long timer = 0; // Seconds (time) timer
+//		int drawCount = 0; // Number of draws within a second (FPS)
 
+		// While game thread is running
 		while (gameThread != null) {
+			// Get current time
 			curTime = System.nanoTime();
+			// Track difference from previous to current time
 			delta += (curTime - preTime) / frameRate;
+			// Track time passed overall
 			timer += (curTime - preTime);
+			// Make current time the previous time
 			preTime = curTime;
 
+			// If time difference greater than one frame
+			// update(), repaint()
 			if (delta >= 1) {
 				update();
 				repaint();
 				delta--;
 //				drawCount++;
 			}
+			// If one second passed
+			// Display FPS
+			// Reset timer
 			if (timer >= 1000000000) {
 //				System.out.println("FPS: " + drawCount);
 //				drawCount = 0;
@@ -99,6 +111,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	// Update game variables
 	public void update() {
+		// Update player
 		player.update();
 	}
 
@@ -107,24 +120,23 @@ public class GamePanel extends JPanel implements Runnable {
 		super.paintComponent(g);
 		Graphics2D frame = (Graphics2D) g;
 
+		// Draw tiles
 		tileH.draw(frame);
 
+		// Draw objects
 		for (int i = 0; i < objArray.length; i++) {
 			if (objArray[i] != null) {
 				objArray[i].draw(frame, this);
 			}
 		}
 
+		// Draw player
 		player.draw(frame);
 
 		frame.dispose();
 	}
 
 	// GETTER / SETTER METHODS
-	public int getTileSize() {
-		return tileSize;
-	}
-
 	public Thread getGameThread() {
 		return gameThread;
 	}
@@ -141,12 +153,28 @@ public class GamePanel extends JPanel implements Runnable {
 		this.player = player;
 	}
 
+	public Obj[] getObjArray() {
+		return objArray;
+	}
+
+	public void setObjArray(Obj[] objArray) {
+		this.objArray = objArray;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	public int getInitTileSize() {
 		return initTileSize;
 	}
 
 	public int getScale() {
 		return scale;
+	}
+
+	public int getTileSize() {
+		return tileSize;
 	}
 
 	public int getMaxScreenCol() {
@@ -185,6 +213,10 @@ public class GamePanel extends JPanel implements Runnable {
 		return fps;
 	}
 
+	public AssetHandler getAssetH() {
+		return assetH;
+	}
+
 	public CollisionHandler getCollisionH() {
 		return collisionH;
 	}
@@ -195,17 +227,5 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public TileHandler getTileH() {
 		return tileH;
-	}
-
-	public Obj[] getObjArray() {
-		return objArray;
-	}
-
-	public void setObjArray(Obj[] objArray) {
-		this.objArray = objArray;
-	}
-
-	public AssetHandler getAssetH() {
-		return assetH;
 	}
 }

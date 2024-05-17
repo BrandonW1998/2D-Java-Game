@@ -4,8 +4,9 @@ import java.awt.image.BufferedImage;
 
 public class Tile {
 
-	private BufferedImage image;
-	private boolean collision = false;
+	// Tile variables
+	private BufferedImage image; // Image of tile
+	private boolean collision = false; // Collision flag
 
 	// GETTER / SETTER METHODS
 	public BufferedImage getImage() {

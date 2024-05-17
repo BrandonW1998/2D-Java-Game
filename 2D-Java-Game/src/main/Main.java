@@ -20,7 +20,7 @@ public class Main {
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
 
-		// Set game variables
+		// Setup game variables
 		gamePanel.setupGame();
 		// Begin Game
 		gamePanel.startGameThread();
