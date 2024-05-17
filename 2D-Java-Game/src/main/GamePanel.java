@@ -12,6 +12,7 @@ import object.Obj;
 import util.AssetHandler;
 import util.CollisionHandler;
 import util.KeyHandler;
+import util.SoundHandler;
 import util.TileHandler;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -26,11 +27,9 @@ public class GamePanel extends JPanel implements Runnable {
 	private final int screenWidth = tileSize * maxScreenCol; // 528 pixels (across)
 	private final int screenHeight = tileSize * maxScreenRow; // 432 pixels (down)
 
-	// WORLD SETTINGS
+	// MAP SETTINGS
 	private final int maxWorldCol = 21; // Number of column tiles on map
 	private final int maxWorldRow = 21; // Number of row tiles on map
-	private final int worldWidth = tileSize * maxWorldCol; // Map's pixel width
-	private final int worldHeight = tileSize * maxWorldRow; // Map's pixel height
 
 	// FRAMES PER SECOND
 	private final int fps = 60;
@@ -39,6 +38,7 @@ public class GamePanel extends JPanel implements Runnable {
 	private final AssetHandler assetH = new AssetHandler(this);
 	private final CollisionHandler collisionH = new CollisionHandler(this);
 	private final KeyHandler keyH = new KeyHandler();
+	private final SoundHandler soundH = new SoundHandler();
 	private final TileHandler tileH = new TileHandler(this);
 
 	// THREADS
@@ -61,6 +61,9 @@ public class GamePanel extends JPanel implements Runnable {
 	public void setupGame() {
 		// Initialize objects
 		assetH.setObject();
+
+		// Start music
+		playMusic(0);
 	}
 
 	// Create and run game thread
@@ -136,6 +139,24 @@ public class GamePanel extends JPanel implements Runnable {
 		frame.dispose();
 	}
 
+	// Play music file (on loop)
+	public void playMusic(int i) {
+		soundH.setFile(i);
+		soundH.play();
+		soundH.loop();
+	}
+
+	// Stop music
+	public void stopMusic() {
+		soundH.stop();
+	}
+
+	// Play sound effect (single time)
+	public void playSE(int i) {
+		soundH.setFile(i);
+		soundH.play();
+	}
+
 	// GETTER / SETTER METHODS
 	public Thread getGameThread() {
 		return gameThread;
@@ -201,14 +222,6 @@ public class GamePanel extends JPanel implements Runnable {
 		return maxWorldRow;
 	}
 
-	public int getWorldWidth() {
-		return worldWidth;
-	}
-
-	public int getWorldHeight() {
-		return worldHeight;
-	}
-
 	public int getFps() {
 		return fps;
 	}
@@ -223,6 +236,10 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public KeyHandler getKeyH() {
 		return keyH;
+	}
+
+	public SoundHandler getSoundH() {
+		return soundH;
 	}
 
 	public TileHandler getTileH() {
