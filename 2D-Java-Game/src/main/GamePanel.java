@@ -14,6 +14,7 @@ import util.CollisionHandler;
 import util.KeyHandler;
 import util.SoundHandler;
 import util.TileHandler;
+import util.UIHandler;
 
 public class GamePanel extends JPanel implements Runnable {
 	private static final long serialVersionUID = 1L;
@@ -38,8 +39,10 @@ public class GamePanel extends JPanel implements Runnable {
 	private final AssetHandler assetH = new AssetHandler(this);
 	private final CollisionHandler collisionH = new CollisionHandler(this);
 	private final KeyHandler keyH = new KeyHandler();
-	private final SoundHandler soundH = new SoundHandler();
+	private final SoundHandler musicH = new SoundHandler();
+	private final SoundHandler seH = new SoundHandler();
 	private final TileHandler tileH = new TileHandler(this);
+	private final UIHandler uiH = new UIHandler(this);
 
 	// THREADS
 	private Thread gameThread;
@@ -136,25 +139,28 @@ public class GamePanel extends JPanel implements Runnable {
 		// Draw player
 		player.draw(frame);
 
+		// Draw ui
+		uiH.draw(frame);
+
 		frame.dispose();
 	}
 
 	// Play music file (on loop)
 	public void playMusic(int i) {
-		soundH.setFile(i);
-		soundH.play();
-		soundH.loop();
+		musicH.setFile(i);
+		musicH.play();
+		musicH.loop();
 	}
 
 	// Stop music
 	public void stopMusic() {
-		soundH.stop();
+		musicH.stop();
 	}
 
 	// Play sound effect (single time)
 	public void playSE(int i) {
-		soundH.setFile(i);
-		soundH.play();
+		seH.setFile(i);
+		seH.play();
 	}
 
 	// GETTER / SETTER METHODS
@@ -238,11 +244,19 @@ public class GamePanel extends JPanel implements Runnable {
 		return keyH;
 	}
 
-	public SoundHandler getSoundH() {
-		return soundH;
+	public SoundHandler getMusicH() {
+		return musicH;
+	}
+
+	public SoundHandler getSEH() {
+		return seH;
 	}
 
 	public TileHandler getTileH() {
 		return tileH;
+	}
+
+	public UIHandler getUiH() {
+		return uiH;
 	}
 }
