@@ -25,7 +25,7 @@ public class UIHandler {
 	public UIHandler(GamePanel gp) {
 		this.gp = gp;
 		arial_24 = new Font("Arial", Font.PLAIN, 24);
-		Obj_Key key = new Obj_Key();
+		Obj_Key key = new Obj_Key(gp);
 		keyImage = key.getImage();
 		centerScreenX = gp.getScreenWidth() / 2;
 		centerScreenY = gp.getScreenHeight() / 2;

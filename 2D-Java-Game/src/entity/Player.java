@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 
 import main.GamePanel;
 import util.KeyHandler;
+import util.UtilityTool;
 
 public class Player extends Entity {
 
@@ -48,22 +49,31 @@ public class Player extends Entity {
 
 	// Load images of player
 	public void loadPlayerImage() {
+		setUp0(setup("player_up0"));
+		setUp1(setup("player_up1"));
+		setUp2(setup("player_up2"));
+		setDown0(setup("player_down0"));
+		setDown1(setup("player_down1"));
+		setDown2(setup("player_down2"));
+		setLeft0(setup("player_left0"));
+		setLeft1(setup("player_left1"));
+		setLeft2(setup("player_left2"));
+		setRight0(setup("player_right0"));
+		setRight1(setup("player_right1"));
+		setRight2(setup("player_right2"));
+	}
+
+	public BufferedImage setup(String imageName) {
+		UtilityTool uTool = new UtilityTool();
+		BufferedImage image = null;
+
 		try {
-			setUp0(ImageIO.read(getClass().getResourceAsStream("/player/player_up0.png")));
-			setUp1(ImageIO.read(getClass().getResourceAsStream("/player/player_up1.png")));
-			setUp2(ImageIO.read(getClass().getResourceAsStream("/player/player_up2.png")));
-			setDown0(ImageIO.read(getClass().getResourceAsStream("/player/player_down0.png")));
-			setDown1(ImageIO.read(getClass().getResourceAsStream("/player/player_down1.png")));
-			setDown2(ImageIO.read(getClass().getResourceAsStream("/player/player_down2.png")));
-			setLeft0(ImageIO.read(getClass().getResourceAsStream("/player/player_left0.png")));
-			setLeft1(ImageIO.read(getClass().getResourceAsStream("/player/player_left1.png")));
-			setLeft2(ImageIO.read(getClass().getResourceAsStream("/player/player_left2.png")));
-			setRight0(ImageIO.read(getClass().getResourceAsStream("/player/player_right0.png")));
-			setRight1(ImageIO.read(getClass().getResourceAsStream("/player/player_right1.png")));
-			setRight2(ImageIO.read(getClass().getResourceAsStream("/player/player_right2.png")));
+			image = ImageIO.read(getClass().getResourceAsStream("/player/" + imageName + ".png"));
+			image = uTool.scaleImage(image, gp.getTileSize(), gp.getTileSize());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return image;
 	}
 
 	// Update player variables (called every frame)
@@ -218,7 +228,7 @@ public class Player extends Entity {
 			}
 			break;
 		}
-		frame.drawImage(image, screenX, screenY, gp.getTileSize(), gp.getTileSize(), null);
+		frame.drawImage(image, screenX, screenY, null);
 	}
 
 	// GETTER / SETTER METHODS

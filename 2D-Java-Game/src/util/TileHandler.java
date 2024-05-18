@@ -34,33 +34,22 @@ public class TileHandler {
 
 	// Load images of tiles
 	public void loadTileImage() {
+		setup(0, "floor", false);
+		setup(1, "grass", false);
+		setup(2, "tree", true);
+		setup(3, "wall", true);
+		setup(4, "water", true);
+		setup(5, "wood", false);
+	}
+
+	public void setup(int index, String imageName, boolean collision) {
+		UtilityTool uTool = new UtilityTool();
+
 		try {
-			// Floor
-			tile[0] = new Tile();
-			tile[0].setImage(ImageIO.read(getClass().getResourceAsStream("/tile/floor.png")));
-
-			// Grass
-			tile[1] = new Tile();
-			tile[1].setImage(ImageIO.read(getClass().getResourceAsStream("/tile/grass.png")));
-
-			// Tree (has collision)
-			tile[2] = new Tile();
-			tile[2].setImage(ImageIO.read(getClass().getResourceAsStream("/tile/tree.png")));
-			tile[2].setCollision(true);
-
-			// Wall (has collision)
-			tile[3] = new Tile();
-			tile[3].setImage(ImageIO.read(getClass().getResourceAsStream("/tile/wall.png")));
-			tile[3].setCollision(true);
-
-			// Water (has collision)
-			tile[4] = new Tile();
-			tile[4].setImage(ImageIO.read(getClass().getResourceAsStream("/tile/water.png")));
-			tile[4].setCollision(true);
-
-			// Wood
-			tile[5] = new Tile();
-			tile[5].setImage(ImageIO.read(getClass().getResourceAsStream("/tile/wood.png")));
+			tile[index] = new Tile();
+			tile[index].setImage(ImageIO.read(getClass().getResourceAsStream("/tile/" + imageName + ".png")));
+			tile[index].setImage(uTool.scaleImage(tile[index].getImage(), gp.getTileSize(), gp.getTileSize()));
+			tile[index].setCollision(collision);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -124,7 +113,7 @@ public class TileHandler {
 					&& worldX - gp.getTileSize() < gp.getPlayer().getWorldX() + gp.getPlayer().getScreenX()
 					&& worldY + gp.getTileSize() > gp.getPlayer().getWorldY() - gp.getPlayer().getScreenY()
 					&& worldY - gp.getTileSize() < gp.getPlayer().getWorldY() + gp.getPlayer().getScreenY()) {
-				frame.drawImage(tile[tileNum].getImage(), screenX, screenY, gp.getTileSize(), gp.getTileSize(), null);
+				frame.drawImage(tile[tileNum].getImage(), screenX, screenY, null);
 			}
 			worldCol++;
 

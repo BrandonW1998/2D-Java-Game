@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import main.GamePanel;
+import util.UtilityTool;
 
 public class Obj {
 
@@ -12,6 +13,7 @@ public class Obj {
 	private String name; // Name of object
 	private boolean collision = false; // Collision flag
 	private int worldX, worldY; // Position in world (map)
+	private final UtilityTool uTool = new UtilityTool();
 
 	// Draw object on frame
 	public void draw(Graphics2D frame, GamePanel gp) {
@@ -68,5 +70,9 @@ public class Obj {
 
 	public void setWorldY(int worldY) {
 		this.worldY = worldY;
+	}
+
+	public UtilityTool getuTool() {
+		return uTool;
 	}
 }
