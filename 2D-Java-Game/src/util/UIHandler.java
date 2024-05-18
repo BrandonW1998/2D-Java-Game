@@ -15,17 +15,20 @@ public class UIHandler {
 	private final BufferedImage keyImage;
 	private boolean messageOn = false;
 	private String message = "";
+	private int messageLength;
 	private int messageCount = 0;
-//	private final int playerLocX;
-	private final int playerLocY;
+	private final int centerScreenX;
+	private final int centerScreenY;
+	private int msgPopupLocX;
+	private int msgPopupLocY;
 
 	public UIHandler(GamePanel gp) {
 		this.gp = gp;
 		arial_24 = new Font("Arial", Font.PLAIN, 24);
 		Obj_Key key = new Obj_Key();
 		keyImage = key.getImage();
-//		playerLocX = gp.getScreenWidth() / 2 - (gp.getTileSize() / 2);
-		playerLocY = gp.getScreenHeight() / 2 - (gp.getTileSize() / 2);
+		centerScreenX = gp.getScreenWidth() / 2;
+		centerScreenY = gp.getScreenHeight() / 2;
 	}
 
 	public void showMessage(String text) {
@@ -42,10 +45,15 @@ public class UIHandler {
 		frame.drawString("x " + gp.getPlayer().getKeyBag(), 36, 24);
 
 		if (messageOn) {
+			messageLength = (int) frame.getFontMetrics().getStringBounds(message, frame).getWidth();
+			msgPopupLocX = centerScreenX - messageLength / 2;
+			msgPopupLocY = centerScreenY - gp.getTileSize() / 2;
+
 			frame.setColor(Color.black);
-			frame.drawString(message, 0 + 1, playerLocY + 1);
+			frame.drawString(message, msgPopupLocX + 1, msgPopupLocY - (messageCount / 2) + 1);
 			frame.setColor(Color.white);
-			frame.drawString(message, 0, playerLocY);
+			frame.drawString(message, msgPopupLocX, msgPopupLocY - (messageCount / 2));
+
 			messageCount++;
 			if (messageCount > 60) {
 				messageCount = 0;

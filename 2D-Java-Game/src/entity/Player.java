@@ -145,7 +145,7 @@ public class Player extends Entity {
 				gp.playSE(1);
 				keyBag++;
 				gp.getObjArray()[index] = null;
-				gp.getUiH().showMessage("Got a Key!");
+				gp.getUiH().showMessage("Player got a Key!");
 				break;
 			// Use a key on door
 			// Play open door sound effect (i = 2)
@@ -153,10 +153,10 @@ public class Player extends Entity {
 				if (keyBag > 0) {
 					gp.playSE(2);
 					gp.getObjArray()[index] = null;
-					gp.getUiH().showMessage("Used a Key");
+					gp.getUiH().showMessage("Player used a key!");
 					keyBag--;
 				} else {
-					gp.getUiH().showMessage("Need a Key");
+					gp.getUiH().showMessage("The door is locked...");
 				}
 				break;
 			}
