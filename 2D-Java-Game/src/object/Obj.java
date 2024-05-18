@@ -8,12 +8,14 @@ import util.UtilityTool;
 
 public class Obj {
 
+	// SYSTEMS / TOOLS
+	private final UtilityTool uTool = new UtilityTool();
+
 	// Object variables
 	private BufferedImage image; // Image of object
 	private String name; // Name of object
 	private boolean collision = false; // Collision flag
 	private int worldX, worldY; // Position in world (map)
-	private final UtilityTool uTool = new UtilityTool();
 
 	// Draw object on frame
 	public void draw(Graphics2D frame, GamePanel gp) {
@@ -32,6 +34,10 @@ public class Obj {
 	}
 
 	// GETTER / SETTER METHODS
+	public UtilityTool getuTool() {
+		return uTool;
+	}
+
 	public BufferedImage getImage() {
 		return image;
 	}
@@ -70,9 +76,5 @@ public class Obj {
 
 	public void setWorldY(int worldY) {
 		this.worldY = worldY;
-	}
-
-	public UtilityTool getuTool() {
-		return uTool;
 	}
 }

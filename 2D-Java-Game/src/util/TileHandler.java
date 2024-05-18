@@ -32,7 +32,7 @@ public class TileHandler {
 		loadMap("/map/map1.txt");
 	}
 
-	// Load images of tiles
+	// Set images of tiles
 	public void loadTileImage() {
 		setup(0, "floor", false);
 		setup(1, "grass", false);
@@ -42,6 +42,7 @@ public class TileHandler {
 		setup(5, "wood", false);
 	}
 
+	// Load and up-scale image of tile
 	public void setup(int index, String imageName, boolean collision) {
 		UtilityTool uTool = new UtilityTool();
 

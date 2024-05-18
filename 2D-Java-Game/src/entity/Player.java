@@ -47,7 +47,7 @@ public class Player extends Entity {
 		setDirection("down");
 	}
 
-	// Load images of player
+	// Set images of player
 	public void loadPlayerImage() {
 		setUp0(setup("player_up0"));
 		setUp1(setup("player_up1"));
@@ -63,6 +63,7 @@ public class Player extends Entity {
 		setRight2(setup("player_right2"));
 	}
 
+	// Load and up-scale images of player
 	public BufferedImage setup(String imageName) {
 		UtilityTool uTool = new UtilityTool();
 		BufferedImage image = null;
