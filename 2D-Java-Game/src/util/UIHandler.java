@@ -35,11 +35,16 @@ public class UIHandler {
 
 	public void draw(Graphics2D frame) {
 		frame.setFont(arial_24);
-		frame.setColor(Color.white);
 		frame.drawImage(keyImage, 6, 3, gp.getTileSize() / 2, gp.getTileSize() / 2, null);
+		frame.setColor(Color.black);
+		frame.drawString("x " + gp.getPlayer().getKeyBag(), 36 + 1, 24 + 1);
+		frame.setColor(Color.white);
 		frame.drawString("x " + gp.getPlayer().getKeyBag(), 36, 24);
 
 		if (messageOn) {
+			frame.setColor(Color.black);
+			frame.drawString(message, 0 + 1, playerLocY + 1);
+			frame.setColor(Color.white);
 			frame.drawString(message, 0, playerLocY);
 			messageCount++;
 			if (messageCount > 60) {

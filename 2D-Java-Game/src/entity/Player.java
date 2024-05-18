@@ -38,8 +38,8 @@ public class Player extends Entity {
 	// Initialize player variables
 	public void setDefaultValues() {
 		// Starting position (10, 8)
-		setWorldX(gp.getTileSize() * 10);
-		setWorldY(gp.getTileSize() * 8);
+		setWorldX(gp.getTileSize() * 11);
+		setWorldY(gp.getTileSize() * 11);
 		// Standard speed (3 pixels per frame)
 		setSpeed(3);
 		// Start facing down (towards camera)
