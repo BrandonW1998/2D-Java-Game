@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import battle.Battle;
 import entity.Npc;
 import entity.Player;
 import object.Obj;
@@ -45,9 +46,13 @@ public class GamePanel extends JPanel implements Runnable {
 	private final TileHandler tileH = new TileHandler(this);
 	private final UIHandler uiH = new UIHandler(this);
 
+	// BATTLE STUFF
+	private Battle battle;
+
 	// GAME STATES
 	private final int playMode = 1;
 	private final int dialogueMode = 2;
+	private final int battleMode = 3;
 	private int gameMode = 1;
 	// THREADS
 	private Thread gameThread;
@@ -134,26 +139,35 @@ public class GamePanel extends JPanel implements Runnable {
 		super.paintComponent(g);
 		Graphics2D frame = (Graphics2D) g;
 
-		// Draw tiles
-		tileH.draw(frame);
+		// If play mode
+		if (gameMode == playMode || gameMode == dialogueMode) {
+			// Draw tiles
+			tileH.draw(frame);
 
-		// Draw objects
-		for (int i = 0; i < objArray.length; i++) {
-			if (objArray[i] != null) {
-				objArray[i].draw(frame, this);
+			// Draw objects
+			for (int i = 0; i < objArray.length; i++) {
+				if (objArray[i] != null) {
+					objArray[i].draw(frame, this);
+				}
 			}
+
+			// Draw player
+			player.draw(frame);
+
+			// Draw npc
+			npc.draw(frame);
+
+			// Draw ui
+			uiH.draw(frame);
+
+			frame.dispose();
 		}
 
-		// Draw player
-		player.draw(frame);
+		if (gameMode == battleMode) {
+			battle.draw(frame);
 
-		// Draw npc
-		npc.draw(frame);
-
-		// Draw ui
-		uiH.draw(frame);
-
-		frame.dispose();
+			frame.dispose();
+		}
 	}
 
 	// Play music file (on loop)
@@ -297,5 +311,17 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public UIHandler getUiH() {
 		return uiH;
+	}
+
+	public Battle getBattle() {
+		return battle;
+	}
+
+	public void setBattle(Battle battle) {
+		this.battle = battle;
+	}
+
+	public int getBattleMode() {
+		return battleMode;
 	}
 }

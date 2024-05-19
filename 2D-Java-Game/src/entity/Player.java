@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import battle.Battle;
 import main.GamePanel;
 import util.KeyHandler;
 import util.UtilityTool;
@@ -22,7 +23,7 @@ public class Player extends Entity {
 
 	// Interacting variables
 	private int interactCount;
-//	private boolean interactTimer = false;
+	private final int interactLimit;
 
 	// Inventory
 	private int keyBag = 0;
@@ -37,7 +38,8 @@ public class Player extends Entity {
 		screenY = gp.getScreenHeight() / 2 - (gp.getTileSize() / 2);
 
 		// Time possible between interactions
-		interactCount = 15; // 15 frames between interactions
+		interactLimit = 15;
+		interactCount = interactLimit; // 15 frames between interactions
 
 		setDefaultValues();
 		loadPlayerImage();
@@ -89,13 +91,24 @@ public class Player extends Entity {
 
 	// Update player variables (called every frame)
 	public void update() {
-		if (interactCount < 15) {
+		// 15 frame interval, before interactions can occur again
+		if (interactCount < interactLimit) {
 			interactCount++;
 		}
-		if (gp.getGameMode() == gp.getDialogueMode() && interactCount == 15) {
-			if (keyH.isInteract()) {
+		if (gp.getGameMode() == gp.getBattleMode()) {
+			if (keyH.isDebugBattle() && interactCount == interactLimit) {
 				interactCount = 0;
-				System.out.println("test");
+				gp.setGameMode(gp.getPlayMode());
+			}
+		}
+		if (keyH.isDebugBattle() && interactCount == interactLimit) {
+			interactCount = 0;
+			gp.setGameMode(gp.getBattleMode());
+			gp.setBattle(new Battle(this, gp.getNpc(), gp));
+		}
+		if (gp.getGameMode() == gp.getDialogueMode()) {
+			if (keyH.isInteract() && interactCount == interactLimit) {
+				interactCount = 0;
 				gp.getUiH().exitDialogue();
 				gp.setGameMode(gp.getPlayMode());
 			}

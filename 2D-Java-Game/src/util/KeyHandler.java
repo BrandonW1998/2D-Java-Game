@@ -5,11 +5,14 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
 
-	// Directional button flags
+	// Directional buttons
 	private boolean up, down, left, right;
 
-	// Interaction button flag
+	// Interaction button
 	private boolean interact;
+
+	// Debug buttons
+	private boolean debugBattle;
 
 	@Override
 	public void keyTyped(KeyEvent e) {
@@ -34,6 +37,11 @@ public class KeyHandler implements KeyListener {
 		// (J) Interaction
 		if (code == KeyEvent.VK_J)
 			interact = true;
+
+		// DEBUG
+		// (B) Simulate test battle
+		if (code == KeyEvent.VK_B)
+			debugBattle = true;
 	}
 
 	// Listen for key release
@@ -55,6 +63,11 @@ public class KeyHandler implements KeyListener {
 		// (J) Interaction
 		if (code == KeyEvent.VK_J)
 			interact = false;
+
+		// DEBUG
+		// (B) Simulate test battle
+		if (code == KeyEvent.VK_B)
+			debugBattle = false;
 	}
 
 	// GETTER / SETTER METHODS
@@ -96,5 +109,13 @@ public class KeyHandler implements KeyListener {
 
 	public void setInteract(boolean interact) {
 		this.interact = interact;
+	}
+
+	public boolean isDebugBattle() {
+		return debugBattle;
+	}
+
+	public void setDebugBattle(boolean debugBattle) {
+		this.debugBattle = debugBattle;
 	}
 }
