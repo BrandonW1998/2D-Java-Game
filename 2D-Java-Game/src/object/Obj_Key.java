@@ -18,7 +18,7 @@ public class Obj_Key extends Obj {
 		try {
 			// Load and up-scale key image
 			setImage(ImageIO.read(getClass().getResourceAsStream("/object/key.png")));
-			getuTool().scaleImage(getImage(), gp.getTileSize(), gp.getTileSize());
+			setImage(getuTool().scaleImage(getImage(), gp.getTileSize(), gp.getTileSize()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

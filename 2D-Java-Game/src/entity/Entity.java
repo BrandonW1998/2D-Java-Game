@@ -7,10 +7,9 @@ public class Entity {
 	// Entity variables
 	private int worldX, worldY; // Position in world (map)
 	private int speed; // Speed of movement
-	private boolean moving; // Movement flag
-	private int pixelCount; // Number of pixels moved
 	private String direction; // Facing direction (up, down, left, right)
 	private boolean collisionOn = false; // Colliding flag
+	private boolean collision = false;
 
 	// Entity images
 	private BufferedImage up0, down0, left0, right0; // Inert images
@@ -18,6 +17,8 @@ public class Entity {
 
 	// Entity animating
 	private int sprite = 1; // Picks a moving image to use
+	private boolean moving; // Movement flag
+	private int pixelCount; // Number of pixels moved
 
 	// Alternate sprite (following 1 tile movement)
 	public void altSprite() {
@@ -54,22 +55,6 @@ public class Entity {
 		this.speed = speed;
 	}
 
-	public boolean isMoving() {
-		return moving;
-	}
-
-	public void setMoving(boolean moving) {
-		this.moving = moving;
-	}
-
-	public int getPixelCount() {
-		return pixelCount;
-	}
-
-	public void setPixelCount(int pixelCount) {
-		this.pixelCount = pixelCount;
-	}
-
 	public String getDirection() {
 		return direction;
 	}
@@ -84,6 +69,14 @@ public class Entity {
 
 	public void setCollisionOn(boolean collisionOn) {
 		this.collisionOn = collisionOn;
+	}
+
+	public boolean isCollision() {
+		return collision;
+	}
+
+	public void setCollision(boolean collision) {
+		this.collision = collision;
 	}
 
 	public BufferedImage getUp0() {
@@ -188,5 +181,21 @@ public class Entity {
 
 	public void setSprite(int sprite) {
 		this.sprite = sprite;
+	}
+
+	public boolean isMoving() {
+		return moving;
+	}
+
+	public void setMoving(boolean moving) {
+		this.moving = moving;
+	}
+
+	public int getPixelCount() {
+		return pixelCount;
+	}
+
+	public void setPixelCount(int pixelCount) {
+		this.pixelCount = pixelCount;
 	}
 }

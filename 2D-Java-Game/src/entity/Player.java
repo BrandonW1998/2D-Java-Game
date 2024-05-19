@@ -68,12 +68,15 @@ public class Player extends Entity {
 		UtilityTool uTool = new UtilityTool();
 		BufferedImage image = null;
 
+		// Get image from res
+		// Scale image
 		try {
 			image = ImageIO.read(getClass().getResourceAsStream("/player/" + imageName + ".png"));
 			image = uTool.scaleImage(image, gp.getTileSize(), gp.getTileSize());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		// Return scaled image
 		return image;
 	}
 
@@ -81,8 +84,22 @@ public class Player extends Entity {
 	public void update() {
 		// If player IS NOT moving
 		if (!isMoving()) {
+			// If interaction key is pressed
+			// Check for interactions
+			// Interact with object / entity
+			if (keyH.isInteract()) {
+				// Check object collision
+				int objIndex = gp.getCollisionH().checkObject(this, true);
+				interactObject(objIndex);
+
+				if (gp.getCollisionH().checkNpc(this, true))
+					interactNpc(1);
+			}
+
 			// If movement key is pressed
+			// Check for collision
 			// Change player's facing direction
+			// Flag to move player
 			if (keyH.isUp() || keyH.isDown() || keyH.isLeft() || keyH.isRight()) {
 				if (keyH.isUp()) {
 					setDirection("up");
@@ -106,6 +123,9 @@ public class Player extends Entity {
 				// Check object collision
 				int objIndex = gp.getCollisionH().checkObject(this, true);
 				pickUpObject(objIndex);
+
+				// Check npc collision
+				gp.getCollisionH().checkNpc(this, true);
 			}
 		}
 		// If player IS moving
@@ -142,21 +162,20 @@ public class Player extends Entity {
 		}
 	}
 
-	// Action when object is interacted/collided with
-	public void pickUpObject(int index) {
-		// If NOT an object
+	// Action when object is interacted with
+	public void interactObject(int index) {
+		// If an object
 		if (index != -1) {
-			// Name of object to pickup
+			// Name of object to interact
 			String objName = gp.getObjArray()[index].getName();
 
 			switch (objName) {
-			// Pickup a key
-			// Play pickup sound effect (i = 1)
-			case "key":
-				gp.playSE(1);
-				keyBag++;
+			// Open chest
+			// Play open sound effect (i = 2)
+			case "chest":
+				gp.playSE(2);
 				gp.getObjArray()[index] = null;
-				gp.getUiH().showMessage("Player got a Key!");
+				gp.getUiH().showMessage("Player opened a chest!");
 				break;
 			// Use a key on door
 			// Play open door sound effect (i = 2)
@@ -171,6 +190,34 @@ public class Player extends Entity {
 				}
 				break;
 			}
+		}
+	}
+
+	// Action when object is collided with
+	public void pickUpObject(int index) {
+		// If an object
+		if (index != -1) {
+			// Name of object to pickup
+			String objName = gp.getObjArray()[index].getName();
+
+			switch (objName) {
+			// Pickup a key
+			// Play pickup sound effect (i = 1)
+			case "key":
+				gp.playSE(1);
+				keyBag++;
+				gp.getObjArray()[index] = null;
+				gp.getUiH().showMessage("Player got a Key!");
+				break;
+			}
+		}
+	}
+
+	// Action when npc is interacted with
+	public void interactNpc(int index) {
+		// If an Npc
+		if (index != -1) {
+			gp.getNpc().facePlayer();
 		}
 	}
 

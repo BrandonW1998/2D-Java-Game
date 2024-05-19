@@ -18,7 +18,7 @@ public class Obj_Chest extends Obj {
 		try {
 			// Load and up-scale chest image
 			setImage(ImageIO.read(getClass().getResourceAsStream("/object/chest.png")));
-			getuTool().scaleImage(getImage(), gp.getTileSize(), gp.getTileSize());
+			setImage(getuTool().scaleImage(getImage(), gp.getTileSize(), gp.getTileSize()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import entity.Npc;
 import entity.Player;
 import object.Obj;
 import util.AssetHandler;
@@ -50,6 +51,7 @@ public class GamePanel extends JPanel implements Runnable {
 	// ASSETS / HOLDERS
 	private Player player = new Player(this, keyH); // Player character
 	private Obj[] objArray = new Obj[10]; // Objects to display
+	private Npc npc = new Npc(this);
 
 	// GamePanel Constructor
 	public GamePanel() {
@@ -119,6 +121,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public void update() {
 		// Update player
 		player.update();
+		npc.update();
 	}
 
 	// Paint frame
@@ -138,6 +141,9 @@ public class GamePanel extends JPanel implements Runnable {
 
 		// Draw player
 		player.draw(frame);
+
+		// Draw npc
+		npc.draw(frame);
 
 		// Draw ui
 		uiH.draw(frame);
@@ -186,6 +192,14 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public void setObjArray(Obj[] objArray) {
 		this.objArray = objArray;
+	}
+
+	public Npc getNpc() {
+		return npc;
+	}
+
+	public void setNpc(Npc npc) {
+		this.npc = npc;
 	}
 
 	public static long getSerialversionuid() {

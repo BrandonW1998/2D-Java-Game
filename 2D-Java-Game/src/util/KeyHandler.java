@@ -30,6 +30,10 @@ public class KeyHandler implements KeyListener {
 			left = true;
 		if (code == KeyEvent.VK_D)
 			right = true;
+
+		// (J) Interaction
+		if (code == KeyEvent.VK_J)
+			interact = true;
 	}
 
 	// Listen for key release
@@ -47,6 +51,10 @@ public class KeyHandler implements KeyListener {
 			left = false;
 		if (code == KeyEvent.VK_D)
 			right = false;
+
+		// (J) Interaction
+		if (code == KeyEvent.VK_J)
+			interact = false;
 	}
 
 	// GETTER / SETTER METHODS

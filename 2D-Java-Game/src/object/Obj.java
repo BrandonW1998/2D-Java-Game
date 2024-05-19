@@ -29,7 +29,7 @@ public class Obj {
 				&& worldY + gp.getTileSize() > gp.getPlayer().getWorldY() - gp.getPlayer().getScreenY()
 				&& worldY - gp.getTileSize() < gp.getPlayer().getWorldY() + gp.getPlayer().getScreenY()) {
 			// Draw object on screen
-			frame.drawImage(image, screenX, screenY, gp.getTileSize(), gp.getTileSize(), null);
+			frame.drawImage(image, screenX, screenY, null);
 		}
 	}
 

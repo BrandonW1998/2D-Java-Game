@@ -121,4 +121,60 @@ public class CollisionHandler {
 		// Default fail case
 		return index;
 	}
+
+	// Check objects for collisions
+	public boolean checkNpc(Entity entity, boolean isPlayer) {
+		// Default fail case
+		boolean isNpc = false;
+
+		// Entity's tile position (x, y)
+		int entTileX = entity.getWorldX() / gp.getTileSize();
+		int entTileY = entity.getWorldY() / gp.getTileSize();
+
+		// Npc's tile position (x, y)
+		int npcTileX = gp.getNpc().getWorldX() / gp.getTileSize();
+		int npcTileY = gp.getNpc().getWorldY() / gp.getTileSize();
+
+		// Check tile in front of entity
+		// If object collided
+		// Set collisionOn flag
+		// If entity is player
+		// Return object's index
+		switch (entity.getDirection()) {
+		case "up":
+			if (entTileX == npcTileX && entTileY - 1 == npcTileY) {
+				entity.setCollisionOn(true);
+				if (isPlayer) {
+					isNpc = true;
+				}
+			}
+			break;
+		case "down":
+			if (entTileX == npcTileX && entTileY + 1 == npcTileY) {
+				entity.setCollisionOn(true);
+				if (isPlayer) {
+					isNpc = true;
+				}
+			}
+			break;
+		case "left":
+			if (entTileX - 1 == npcTileX && entTileY == npcTileY) {
+				entity.setCollisionOn(true);
+				if (isPlayer) {
+					isNpc = true;
+				}
+			}
+			break;
+		case "right":
+			if (entTileX + 1 == npcTileX && entTileY == npcTileY) {
+				entity.setCollisionOn(true);
+				if (isPlayer) {
+					isNpc = true;
+				}
+			}
+			break;
+		}
+
+		return isNpc;
+	}
 }

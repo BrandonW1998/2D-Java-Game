@@ -18,7 +18,7 @@ public class Obj_Door extends Obj {
 		try {
 			// Load and up-scale door image
 			setImage(ImageIO.read(getClass().getResourceAsStream("/object/door.png")));
-			getuTool().scaleImage(getImage(), gp.getTileSize(), gp.getTileSize());
+			setImage(getuTool().scaleImage(getImage(), gp.getTileSize(), gp.getTileSize()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
