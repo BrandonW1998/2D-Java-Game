@@ -15,12 +15,13 @@ public class Npc extends Entity {
 	private final GamePanel gp;
 
 	// Dialogue
-	private String dialogue;
+	private final String dialogue;
 
+	// Npc Constructor
 	public Npc(GamePanel gp) {
 		this.gp = gp;
 
-		dialogue = "This is test dialogue.";
+		dialogue = "Yo, what's up broski?";
 
 		setDefaultValues();
 		loadNpcImage();
@@ -30,7 +31,7 @@ public class Npc extends Entity {
 	public void setDefaultValues() {
 		// Starting position (10, 8)
 		setWorldX(gp.getTileSize() * 11);
-		setWorldY(gp.getTileSize() * 17);
+		setWorldY(gp.getTileSize() * 18);
 		// Standard speed (3 pixels per frame)
 		setSpeed(3);
 		// Start facing down (towards camera)
@@ -87,6 +88,10 @@ public class Npc extends Entity {
 			setDirection("left");
 			break;
 		}
+	}
+
+	public void talkToPlayer() {
+		gp.getUiH().showDialogue(dialogue);
 	}
 
 	// Update npc variables

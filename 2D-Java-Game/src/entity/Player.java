@@ -20,6 +20,10 @@ public class Player extends Entity {
 	private final int screenX; // Center of screen X value
 	private final int screenY; // Center of screen Y value
 
+	// Interacting variables
+	private int interactCount;
+//	private boolean interactTimer = false;
+
 	// Inventory
 	private int keyBag = 0;
 
@@ -31,6 +35,9 @@ public class Player extends Entity {
 		// Calculate center of display
 		screenX = gp.getScreenWidth() / 2 - (gp.getTileSize() / 2);
 		screenY = gp.getScreenHeight() / 2 - (gp.getTileSize() / 2);
+
+		// Time possible between interactions
+		interactCount = 15; // 15 frames between interactions
 
 		setDefaultValues();
 		loadPlayerImage();
@@ -82,82 +89,97 @@ public class Player extends Entity {
 
 	// Update player variables (called every frame)
 	public void update() {
-		// If player IS NOT moving
-		if (!isMoving()) {
-			// If interaction key is pressed
-			// Check for interactions
-			// Interact with object / entity
+		if (interactCount < 15) {
+			interactCount++;
+		}
+		if (gp.getGameMode() == gp.getDialogueMode() && interactCount == 15) {
 			if (keyH.isInteract()) {
-				// Check object collision
-				int objIndex = gp.getCollisionH().checkObject(this, true);
-				interactObject(objIndex);
-
-				if (gp.getCollisionH().checkNpc(this, true))
-					interactNpc(1);
-			}
-
-			// If movement key is pressed
-			// Check for collision
-			// Change player's facing direction
-			// Flag to move player
-			if (keyH.isUp() || keyH.isDown() || keyH.isLeft() || keyH.isRight()) {
-				if (keyH.isUp()) {
-					setDirection("up");
-				}
-				if (keyH.isDown()) {
-					setDirection("down");
-				}
-				if (keyH.isLeft()) {
-					setDirection("left");
-				}
-				if (keyH.isRight()) {
-					setDirection("right");
-				}
-				// Set moving flag (to play animation)
-				setMoving(true);
-
-				// Check tile collision
-				setCollisionOn(false);
-				gp.getCollisionH().checkTile(this);
-
-				// Check object collision
-				int objIndex = gp.getCollisionH().checkObject(this, true);
-				pickUpObject(objIndex);
-
-				// Check npc collision
-				gp.getCollisionH().checkNpc(this, true);
+				interactCount = 0;
+				System.out.println("test");
+				gp.getUiH().exitDialogue();
+				gp.setGameMode(gp.getPlayMode());
 			}
 		}
-		// If player IS moving
-		if (isMoving()) {
-			// If no collision
-			// Move player
-			if (!isCollisionOn()) {
-				switch (getDirection()) {
-				case "up":
-					setWorldY(getWorldY() - getSpeed());
-					break;
-				case "down":
-					setWorldY(getWorldY() + getSpeed());
-					break;
-				case "left":
-					setWorldX(getWorldX() - getSpeed());
-					break;
-				case "right":
-					setWorldX(getWorldX() + getSpeed());
-					break;
+		if (gp.getGameMode() == gp.getPlayMode()) {
+			// If player IS NOT moving
+			if (!isMoving()) {
+				// If interaction key is pressed
+				// Check for interactions
+				// Interact with object / entity
+				if (keyH.isInteract()) {
+					// Check object collision
+					int objIndex = gp.getCollisionH().checkObject(this, true);
+					interactObject(objIndex);
+
+					if (gp.getCollisionH().checkNpc(this, true) && interactCount == 15) {
+						interactCount = 0;
+						interactNpc(1);
+					}
+				}
+
+				// If movement key is pressed
+				// Check for collision
+				// Change player's facing direction
+				// Flag to move player
+				if (keyH.isUp() || keyH.isDown() || keyH.isLeft() || keyH.isRight()) {
+					if (keyH.isUp()) {
+						setDirection("up");
+					}
+					if (keyH.isDown()) {
+						setDirection("down");
+					}
+					if (keyH.isLeft()) {
+						setDirection("left");
+					}
+					if (keyH.isRight()) {
+						setDirection("right");
+					}
+					// Set moving flag (to play animation)
+					setMoving(true);
+
+					// Check tile collision
+					setCollisionOn(false);
+					gp.getCollisionH().checkTile(this);
+
+					// Check object collision
+					int objIndex = gp.getCollisionH().checkObject(this, true);
+					pickUpObject(objIndex);
+
+					// Check npc collision
+					gp.getCollisionH().checkNpc(this, true);
 				}
 			}
-			// Track number of pixels moved
-			setPixelCount(getPixelCount() + getSpeed());
-			// If moved 1 tile
-			// Stop movement
-			// Alternate sprite to use for next movement
-			// Reset counter
-			if (getPixelCount() == 48) {
-				setMoving(false);
-				altSprite();
-				setPixelCount(0);
+			// If player IS moving
+			if (isMoving()) {
+				// If no collision
+				// Move player
+				if (!isCollisionOn()) {
+					switch (getDirection()) {
+					case "up":
+						setWorldY(getWorldY() - getSpeed());
+						break;
+					case "down":
+						setWorldY(getWorldY() + getSpeed());
+						break;
+					case "left":
+						setWorldX(getWorldX() - getSpeed());
+						break;
+					case "right":
+						setWorldX(getWorldX() + getSpeed());
+						break;
+					}
+				}
+				// Track number of pixels moved
+				setPixelCount(getPixelCount() + getSpeed());
+				// If moved 1 tile
+				// Stop movement
+				// Alternate sprite to use for next movement
+				// Reset counter
+				if (getPixelCount() == 48) {
+					setMoving(false);
+					altSprite();
+					setPixelCount(0);
+				}
 			}
 		}
 	}
@@ -215,9 +237,13 @@ public class Player extends Entity {
 
 	// Action when npc is interacted with
 	public void interactNpc(int index) {
-		// If an Npc
-		if (index != -1) {
-			gp.getNpc().facePlayer();
+		if (interactCount < 15) {
+			// If an Npc
+			if (index != -1) {
+				gp.getNpc().facePlayer();
+				gp.getNpc().talkToPlayer();
+				gp.setGameMode(gp.getDialogueMode());
+			}
 		}
 	}
 

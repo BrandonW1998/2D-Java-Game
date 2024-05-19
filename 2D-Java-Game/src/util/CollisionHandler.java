@@ -174,7 +174,6 @@ public class CollisionHandler {
 			}
 			break;
 		}
-
 		return isNpc;
 	}
 }

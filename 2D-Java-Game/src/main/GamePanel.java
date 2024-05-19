@@ -45,6 +45,10 @@ public class GamePanel extends JPanel implements Runnable {
 	private final TileHandler tileH = new TileHandler(this);
 	private final UIHandler uiH = new UIHandler(this);
 
+	// GAME STATES
+	private final int playMode = 1;
+	private final int dialogueMode = 2;
+	private int gameMode = 1;
 	// THREADS
 	private Thread gameThread;
 
@@ -121,6 +125,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public void update() {
 		// Update player
 		player.update();
+		// Update npc
 		npc.update();
 	}
 
@@ -268,6 +273,26 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public TileHandler getTileH() {
 		return tileH;
+	}
+
+	public int getGameMode() {
+		return gameMode;
+	}
+
+	public void setGameMode(int gameMode) {
+		this.gameMode = gameMode;
+	}
+
+	public SoundHandler getSeH() {
+		return seH;
+	}
+
+	public int getPlayMode() {
+		return playMode;
+	}
+
+	public int getDialogueMode() {
+		return dialogueMode;
 	}
 
 	public UIHandler getUiH() {
